@@ -53,11 +53,10 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
             client.send_text_message(user_id, "很抱歉，图片生成失败。")
             return 
     print("5",time.time())
-    print("image",imageinfo[1])
     r_json =  client.upload_media("image",files)# 上传图片
-    print("image",r_json)
+    print("6",time.time())
     client.send_image_message(user_id, r_json["media_id"])# 发送图片
-    print("image",r_json["media_id"])
+    print("7",time.time())
 
 async def deal_message(msg:messages):
     user_id =  msg.source
