@@ -6,8 +6,9 @@ import werobot
 
 AppID = os.getenv("MY_WEROBOT_APPID")
 AppSecret = os.getenv("MY_WEROBOT_APPSECRET")
+token=os.getenv("MY_WEROBOT_TOKEN")
 
-robot = werobot.WeRoBot( token=os.getenv("MY_WEROBOT_TOKEN"))
+robot = werobot.WeRoBot( token=token)
 
 @robot.handler
 def hello(message):
