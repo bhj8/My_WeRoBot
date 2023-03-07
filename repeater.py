@@ -32,7 +32,7 @@ def is_paint(txt: str):
         return True
     return False
 
-async def handle_paint(user_id, txt):
+async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道怎么解决。晚点再说吧
     if await get_moderation(txt) == True:
         client.send_text_message(user_id, "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。请您千万不要瞎搞搞啊！")
         return
@@ -56,15 +56,12 @@ async def handle_paint(user_id, txt):
     print("image",r_json["media_id"])
 
 async def deal_message(msg:messages):
-    print("deal_message：",msg)
-    
     user_id =  msg.source
     txt = msg.content
     print("user_id:",user_id,"txt:",txt) 
 
     txt =  replace_quick_question(txt)# 替换快捷问题
     if is_paint(txt) :# 画图
-        print("is_paint") 
         await handle_paint(user_id, txt)
         return
     return
