@@ -1,2 +1,4 @@
+openai==0.27.0
 python-dotenv==1.0.0
+webuiapi==0.5.0
 WeRoBot==1.13.1
