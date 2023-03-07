@@ -46,6 +46,7 @@ def hello_world(message):
 
     # 创建一个任务并将其添加到事件循环中
     task = loop.create_task(deal_message(message))
+    loop.run_until_complete(task)
     return werobot.replies.SuccessReply()
 
 
