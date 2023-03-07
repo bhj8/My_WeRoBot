@@ -1,17 +1,16 @@
 import asyncio
-import base64
+import io
 
 import webuiapi
-import io
 
 # create API client
 #api = webuiapi.WebUIApi()
 
 # create API client with custom host, port
-# api = webuiapi.WebUIApi(host='127.0.0.1', port=7860)
+api = webuiapi.WebUIApi(host='127.0.0.1', port=7860)
 
 # create API client with custom host, port and https
-api = webuiapi.WebUIApi(host='https://5c2a0775-930e-4f2c.gradio.live', port=443, use_https=True)
+# api = webuiapi.WebUIApi(host='https://5c2a0775-930e-4f2c.gradio.live', port=443, use_https=True)
 
 # create API client with default sampler, steps.
 #api = webuiapi.WebUIApi(sampler='Euler a', steps=20)
@@ -49,14 +48,17 @@ async def get_image(prompt:str):
     # images contains the returned images (PIL images)
 
     #这里很有问题啊！！！！！！！因为还没画好，我也不知道怎么办？先这样弄一下好了。
-    while result1 ==None or result1.image == None:
+    time = 0
+    while result1 ==None or result1.image == None or time < 10:
         await asyncio.sleep(1)
-    print(result1.image)
-
-    buffer = io.BytesIO()
-    result1.image.save(buffer, format="PNG")
-    base64_data = base64.b64encode(buffer.getvalue()).decode("utf-8")
-    return base64_data
+        time += 1
+        if time >= 10:
+            return None
+    file = io.BytesIO()
+    result1.image.save(file, format='PNG')
+    file.seek(0)
+    binary_data = file.getvalue()
+    return [binary_data, result1.info]
 # result1.images
 
 # result1.image

@@ -31,7 +31,8 @@ def prepare_message(last_messages: list = []):
       break
   return messages[::-1]
 
-async def get_response(last_messages: list = []):
+
+async def get_response(last_messages: list = [])->str:
   completions = await openai.ChatCompletion.acreate(
     model="gpt-3.5-turbo",
     presence_penalty = 0,
