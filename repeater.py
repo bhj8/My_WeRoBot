@@ -65,18 +65,18 @@ async def deal_message(msg:messages):
     # client.send_text_message(user_id, reply)# 发送回复
 
 
-def on_message():
+async def on_message():
     try:
         while True:
             (msg) = queue.get()
-            deal_message(msg)
+            await deal_message(msg)
             time.sleep(3)
     except Exception as e:
         print("\r" + e)
 
 
 pool = ThreadPoolExecutor(max_workers=10, thread_name_prefix="on_message")
-pool.submit(on_message)
+pool.submit(asyncio.run, on_message())
 
 
 
