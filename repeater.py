@@ -81,4 +81,4 @@ pool.submit(on_message)
 
 
 def get_response( msg:messages) -> None:
-    queue.put((self, msg))
+    queue.put((msg))
