@@ -54,11 +54,10 @@ async def get_image(prompt:str):
         time += 1
         if time >= 10:
             return None
-    file = io.BytesIO()
-    result1.image.save(file, format='PNG')
-    file.seek(0)
-    binary_data = file.getvalue()
-    return [binary_data, result1.info]
+    
+    buffer = io.BytesIO()
+    result1.image.save(buffer, format="PNG")
+    return [buffer, result1.info]
 # result1.images
 
 # result1.image
