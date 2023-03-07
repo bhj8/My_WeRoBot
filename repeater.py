@@ -64,9 +64,10 @@ async def deal_message(msg:messages):
 
     txt =  replace_quick_question(txt)# 替换快捷问题
     if is_paint(txt) :# 画图
+        print("is_paint") 
         await handle_paint(user_id, txt)
         return
-    
+    return
     # reply = await get_response([txt])# 生成回复
     # client.send_text_message(user_id, reply)# 发送回复
 
