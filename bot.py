@@ -5,6 +5,8 @@ import os
 import werobot
 from dotenv import load_dotenv
 
+from repeater import Repeater
+
 load_dotenv()
 AppID = os.getenv("MY_WEROBOT_APPID")
 AppSecret = os.getenv("MY_WEROBOT_APPSECRET")
@@ -16,9 +18,9 @@ robot.config['APP_ID'] = AppID
 robot.config['APP_SECRET'] = AppSecret
 
 
-# @robot.handler
-# def hello(message):
-#     return 'Hello World!'
+@robot.handler
+def hello(message):
+    return message.content
 
 @robot.filter("帮助")
 def show_help(message):
@@ -27,11 +29,15 @@ def show_help(message):
     XXXXX
     """
 
+#新用户关注
+@robot.subscribe
+def subscribe(message):
+    return 'Hello My Friend!'
 
 @robot.text
 def hello_world(message):
-    response = client.upload_media('image', open('test.jpg', 'rb'))
-    print(response)
+    Repeater.on_message(message)
+
     return 'Hello World!'
 
 robot.config['HOST'] = '0.0.0.0'
