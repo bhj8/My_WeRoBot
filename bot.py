@@ -40,7 +40,15 @@ def subscribe(message):
 @robot.text
 def hello_world(message): 
     # get_response(message)
-    asyncio.run(deal_message(message))
+    #asyncio.run(deal_message(message))
+    
+    loop = asyncio.new_event_loop()
+
+    # 创建一个任务并将其添加到事件循环中
+    task = loop.create_task(deal_message(message))
+
+    # 关闭事件循环并返回结果
+    loop.close()
     return ""
 
 
