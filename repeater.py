@@ -56,9 +56,11 @@ async def handle_paint(user_id, txt):
     print("image",r_json["media_id"])
 
 async def deal_message(msg:messages):
-    print("deal_message：")
+    print("deal_message：",msg)
+    
     user_id =  msg.source
     txt = msg.content
+    print("user_id:",user_id,"txt:",txt) 
 
     txt =  replace_quick_question(txt)# 替换快捷问题
     if is_paint(txt) :# 画图
