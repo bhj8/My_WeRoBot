@@ -7,6 +7,7 @@ import werobot
 AppID = os.getenv("MY_WEROBOT_APPID")
 AppSecret = os.getenv("MY_WEROBOT_APPSECRET")
 token=os.getenv("MY_WEROBOT_TOKEN")
+print(AppID, AppSecret, token)
 
 robot = werobot.WeRoBot( token=token)
 
