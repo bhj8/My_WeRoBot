@@ -39,7 +39,7 @@ def hello_world(message, session):
     # repeater.get_response(message.content)
     #构建一个success的返回
     print(message.content)
-    return 'success'
+    pass
 
 robot.config['HOST'] = '0.0.0.0'
 robot.config['PORT'] = 80
