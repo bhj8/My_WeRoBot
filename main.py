@@ -3,7 +3,9 @@
 import os
 
 import werobot
+from dotenv import load_dotenv
 
+load_dotenv()
 AppID = os.getenv("MY_WEROBOT_APPID")
 AppSecret = os.getenv("MY_WEROBOT_APPSECRET")
 token=os.getenv("MY_WEROBOT_TOKEN")
