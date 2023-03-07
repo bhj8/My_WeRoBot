@@ -11,7 +11,7 @@ load_dotenv()
 AppID = os.getenv("MY_WEROBOT_APPID")
 AppSecret = os.getenv("MY_WEROBOT_APPSECRET")
 token=os.getenv("MY_WEROBOT_TOKEN")
-#have_paint =os.getenv("MY_IS_PAINT")
+have_paint =os.getenv("MY_IS_PAINT")
 
 robot = werobot.WeRoBot( token=token)
 client = robot.client
@@ -19,7 +19,7 @@ robot.config['APP_ID'] = AppID
 robot.config['APP_SECRET'] = AppSecret
 
 set_client(client)
-#set_config(have_paint)
+set_config(have_paint)
 # @robot.handler
 # def hello(message):
 #     return message.content

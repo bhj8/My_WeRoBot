@@ -38,7 +38,7 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
         return
     client.send_text_message(user_id, "请稍等，图片生成大约要10秒。")
     txt = await get_translation([txt[3:]]) # 翻译
-    if have_paint == False:
+    if not have_paint or have_paint  == False:
         print("have_paint == False")
         with open("test.jpg", "rb") as image_file:
             # 在这里执行对图片文件的操作
