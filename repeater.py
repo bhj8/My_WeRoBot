@@ -43,13 +43,14 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
         with open("test.jpg", "rb") as image_file:
             # 在这里执行对图片文件的操作
             image_data = image_file.read()
-            imageinfo = [image_data, ""]
+            imageinfo = [image_data, "test.jpg"]
     else:
         imageinfo =  await stable_diffusion_api.get_image(txt)# 生成图片
         if not imageinfo: # 生成失败
             client.send_text_message(user_id, "很抱歉，图片生成失败。")
             return 
     
+    print("image",imageinfo[0])
     r_json =  client.upload_media("image",imageinfo[0])# 上传图片
     print("image",imageinfo[0])
     client.send_image_message(user_id, r_json["media_id"])# 发送图片
