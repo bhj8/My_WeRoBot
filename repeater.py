@@ -39,6 +39,7 @@ async def handle_paint(user_id, txt):
     client.send_text_message(user_id, "请稍等，图片生成大约要10秒。")
     txt = await get_translation([txt[3:]]) # 翻译
     if have_paint == False:
+        print("have_paint == False")
         with open("test.jpg", "rb") as image_file:
             # 在这里执行对图片文件的操作
             image_data = image_file.read()
@@ -50,9 +51,12 @@ async def handle_paint(user_id, txt):
             return 
     
     r_json =  client.upload_media("image",imageinfo[0])# 上传图片
+    print("image",imageinfo[0])
     client.send_image_message(user_id, r_json["media_id"])# 发送图片
+    print("image",r_json["media_id"])
 
 async def deal_message(msg:messages):
+    print("deal_message：")
     user_id =  msg.source
     txt = msg.content
 
