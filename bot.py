@@ -41,7 +41,7 @@ def subscribe(message):
 def hello_world(message): 
     # get_response(message)
     asyncio.run(deal_message(message))
-    return werobot.replies.SuccessReply()
+    return ""
 
 
 robot.config['HOST'] = '0.0.0.0'
