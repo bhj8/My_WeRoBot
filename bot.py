@@ -5,7 +5,7 @@ import os
 import werobot
 from dotenv import load_dotenv
 
-from repeater import Repeater
+#from repeater import Repeater
 
 load_dotenv()
 AppID = os.getenv("MY_WEROBOT_APPID")
