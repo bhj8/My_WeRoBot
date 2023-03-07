@@ -47,8 +47,3 @@ robot.config['HOST'] = '0.0.0.0'
 robot.config['PORT'] = 80
 robot.run()
 
-
-
-# import werobot.utils
-
-# print(werobot.utils.generate_token())

@@ -50,6 +50,7 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
     img.close()
     client.send_image_message(user_id, r_json["media_id"])# 发送图片
     print("send image", user_id, r_json["media_id"])
+    return
 
 async def deal_message(msg:messages):
     user_id =  msg.source
