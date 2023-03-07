@@ -51,7 +51,7 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
             return 
     
     r_json =  client.upload_media(imageinfo[0],"image")# 上传图片
-    print("image",r_json])
+    print("image",r_json)
     client.send_image_message(user_id, r_json["media_id"])# 发送图片
     print("image",r_json["media_id"])
 
