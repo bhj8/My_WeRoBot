@@ -12,11 +12,13 @@ from openai_api import *
 
 queue = Queue(1024)
 
+def __init__(self):
+    pass
 def set_client(c):
     global client
     client = c
 
-def set_config(h_paint):
+def set_config(h_paint=False):
     global have_paint
     have_paint = h_paint
 

@@ -5,7 +5,7 @@ import os
 import werobot
 from dotenv import load_dotenv
 
-import repeater
+from repeater import *
 
 load_dotenv()
 AppID = os.getenv("MY_WEROBOT_APPID")
@@ -18,8 +18,8 @@ client = robot.client
 robot.config['APP_ID'] = AppID
 robot.config['APP_SECRET'] = AppSecret
 
-repeater.set_client(client)
-repeater.set_config(have_paint)
+set_client(client)
+set_config(have_paint)
 # @robot.handler
 # def hello(message):
 #     return message.content
@@ -39,7 +39,7 @@ def subscribe(message):
 
 @robot.text
 def hello_world(message): 
-    repeater.get_response(message)
+    get_response(message)
     return werobot.replies.SuccessReply()
 
 
