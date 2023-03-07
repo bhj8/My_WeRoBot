@@ -46,7 +46,7 @@ def hello_world(message):
 
     # 创建一个任务并将其添加到事件循环中
     task = loop.create_task(deal_message(message))
-    return werobot.replies.success_replay()
+    return werobot.replies.SuccessReply()
 
 
 robot.config['HOST'] = '0.0.0.0'
