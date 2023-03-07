@@ -49,7 +49,7 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
         if not imageinfo: # 生成失败
             client.send_text_message(user_id, "很抱歉，图片生成失败。")
             return 
-    
+    print("image",imageinfo[1])
     r_json =  client.upload_media(imageinfo[0],"image")# 上传图片
     print("image",r_json)
     client.send_image_message(user_id, r_json["media_id"])# 发送图片
@@ -79,7 +79,7 @@ async def on_message():
         print("\r" + e)
 
 
-pool = ThreadPoolExecutor(max_workers=10, thread_name_prefix="on_message")
+pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix="on_message")
 pool.submit(asyncio.run, on_message())
 
 
