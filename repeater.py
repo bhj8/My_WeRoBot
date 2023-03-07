@@ -64,7 +64,13 @@ pool.submit(on_message)
 
 
 
-class RepeaterPlugin(WechatyUIPlugin):
+def get_response(self, msg: Message) -> None:
+    queue.put((self, msg))
+
+
+
+
+
     global quick_question
     quick_question = ["如何在阳台种植草莓？",
                       "翻译一下“Ich bin ein intelligenter Assistent”",
@@ -73,8 +79,3 @@ class RepeaterPlugin(WechatyUIPlugin):
                       "帮我创作一片散文，形容春天。不少于1000个字",
                       "我的电脑网络无法连接，该怎么办？",
                       "请帮我写一份应聘互联网工程师的简历。"]
-
-    @message_controller.may_disable_message
-    async def on_message(self, msg: Message) -> None:
-        queue.put((self, msg))
-        message_controller.disable_all_plugins(msg)
