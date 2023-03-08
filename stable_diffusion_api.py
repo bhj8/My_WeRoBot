@@ -58,18 +58,16 @@ async def get_image(prompt:str):
             return None
         await asyncio.sleep(1)
     
-    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as f:
-    # 将 PIL Image 对象保存为临时文件
-        result1.image.save(f, format='PNG')
-        # f.flush()
-        # f.close()  # 关闭文件
-        # new_name = os.path.join(os.path.dirname(f.name), str(result1.info["seed"]) + ".png")
-        # os.rename(f.name, new_name)
-    # os.rename(f.name, str(result1.info["seed"])+".png")
-        with open(f.name, 'rb') as f2:
-            return [f2 , result1.info,result1]
+    save_path = os.path.join(os.getcwd(), 'images')
+    save_file = os.path.join(save_path, str(result1.info["seed"]) + ".png")
+    result1.image.save(save_file)
+    # f.flush()
+    # f.close()  # 关闭文件
+    # new_name = os.path.join(os.path.dirname(f.name), str(result1.info["seed"]) + ".png")
+    # os.rename(f.name, new_name)
+# os.rename(f.name, str(result1.info["seed"])+".png")
+    return [save_file,result1.info]
 
-    #filename=str(result1.info["seed"])+".png"
 # result1.images
 # import requests
 
