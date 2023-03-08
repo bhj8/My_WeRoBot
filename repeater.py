@@ -74,15 +74,7 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
             print(e)
         count += 1
 
-def no_in_paint(session):
-    session["in_paint"] = False
-def execute_after_five_seconds(session):
-    time.sleep(20)
-    no_in_paint(session)
-
-async def deal_message(msg,session):
-    thread = threading.Thread(target=execute_after_five_seconds,args=(session))
-    thread.start()
+async def deal_message(msg):
     try:
         user_id =  msg.source
         txt = msg.content
@@ -105,8 +97,8 @@ async def deal_message(msg,session):
 async def on_message():    
     try:
         while True:
-            (msg,session) = queue.get()
-            await deal_message(msg,session)
+            (msg) = queue.get()
+            await deal_message(msg)
             await asyncio.sleep(2)
     except Exception as e:
         print("\r" + e)
@@ -125,5 +117,5 @@ pool.submit(asyncio.run, on_message())
 pool.submit(asyncio.run, on_message())
 
 
-def get_response(msg,session) -> None:
-    queue.put((msg,session))
+def get_response(msg) -> None:
+    queue.put((msg))
