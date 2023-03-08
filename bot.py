@@ -47,7 +47,7 @@ def subscribe(message,session):
 def hello_world(message, session): 
 
     if message.content.startswith("画图"):
-        if not session["in_paint"] or session["in_paint"] ==False :
+        if "in_paint" not in session or session["in_paint"] ==False :
             session["in_paint"] =True
             get_response(message,session) 
             return """请稍等，图片生成大约要10秒。
