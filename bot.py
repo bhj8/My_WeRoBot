@@ -52,9 +52,14 @@ def show_help(message):
 #新用户关注
 @robot.subscribe
 def subscribe(message,session):
-    return """以画图开头开始画图，如：
-画图 美少女
-请勿发送不雅词汇"""
+    return """我是小慧，目前提供画图功能。请输入：
+画图 XXX
+开始画图。支持语音输入。
+请勿发送不雅词汇
+
+公众号正在开发中，有时会突然停机更新。几分钟就好了。
+更多更强大功能开发中！
+"""
 
 @robot.voice #我也并不知道语音识别有没有用
 def handler_voice(message):
