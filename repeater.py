@@ -67,7 +67,7 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
         print("send image", user_id, r_json["media_id"])
         return
 
-async def deal_message(msg:messages):
+async def deal_message(msg):
     user_id =  msg.source
     txt = msg.content
     print("user_id:",user_id,"txt:",txt) 
@@ -88,7 +88,7 @@ async def on_message():
         while True:
             (msg) = queue.get()
             await deal_message(msg)
-            time.sleep(3)
+            time.sleep(2)
     except Exception as e:
         print("\r" + e)
 
@@ -98,5 +98,5 @@ pool.submit(asyncio.run, on_message())
 
 
 
-def get_response( msg:messages) -> None:
+def get_response(msg) -> None:
     queue.put((msg))
