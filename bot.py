@@ -43,8 +43,8 @@ def subscribe(message):
     
 @robot.text
 def hello_world(message): 
-    # get_response(message)
-    asyncio.run(deal_message(message))
+    get_response(message)
+    # asyncio.run(deal_message(message))
     return werobot.replies.SuccessReply()
 
 

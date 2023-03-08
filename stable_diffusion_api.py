@@ -20,8 +20,8 @@ api_url = "127.0.0.1:7860"
 
 # optionally set username, password when --api-auth is set on webui.
 # api.set_auth('username', 'password')
-first_txt = " ((masterpiece,best quality)), "
-end_txt = ",looking at viewer,smile,day, depth of field"
+first_txt = " <(masterpiece, realistic:1.3), (extremely intricate:1.2)>,  "
+end_txt = ",looking at viewer"
 ban_txt= ", bad feet,glans, nsfw, nipples"
 def handle_prompt(prompt):
     prompt= first_txt + prompt + end_txt
@@ -31,7 +31,7 @@ def handle_prompt(prompt):
 async def get_image(prompt:str):
     result1 = None
     result1 = api.txt2img(prompt=handle_prompt(prompt),#"cute squirrel"
-                        negative_prompt="""(worst quality, low quality:1.4), EasyNegative, extra fingers,fewer fingers, extra legs, extra hands, fewer hands, blurry, logo, watermark, text, signarture, sleeves, long sleeves"""+ban_txt,
+                        negative_prompt="""((worst quality, low quality:1.4), (depth of field, blurry:1.2), (greyscale, monochrome:1.1), 3D face, cropped, lowres, text, jpeg artifacts, signature, watermark, username, blurry, artist name, trademark, watermark, title, multiple view, Reference sheet, curvy, plump, fat, muscular female, strabismus,"""+ban_txt,
                         seed=-1,
                         styles=[],
                         cfg_scale=10,
