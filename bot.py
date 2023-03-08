@@ -38,18 +38,23 @@ def show_help(message):
 
 #新用户关注
 @robot.subscribe
-def subscribe(message):
+def subscribe(message,session):
     return """以画图开头开始画图，如：
 画图 美少女
 故意发送不雅词汇将被警告并拉黑"""
     
 @robot.text
-def hello_world(message): 
+def hello_world(message, session): 
+
     if message.content.startswith("画图"):
-        get_response(message) 
-        return """请稍等，图片生成大约要10秒。
+        if not session["in_paint"] or session["in_paint"] ==False :
+            session["in_paint"] =True
+            get_response(message,session) 
+            return """请稍等，图片生成大约要10秒。
 今日画风推荐核心关键词：少女，露肩连衣裙，坐姿，小精灵
 输入“示例”查看优秀关键词"""
+        else:
+            return "正在有图片绘制中，请稍等再发送画图消息！"
     # asyncio.run(deal_message(message))
     return "目前只支持画图功能。请发送“画图 XXX”"
     # return werobot.replies.SuccessReply() # 用于响应微信服务器，不然会重试三次 

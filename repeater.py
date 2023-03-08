@@ -1,5 +1,6 @@
 
 import io
+import re
 import time
 from concurrent.futures import (ALL_COMPLETED, FIRST_EXCEPTION,
                                 ThreadPoolExecutor, wait)
@@ -7,10 +8,9 @@ from queue import Queue
 
 from werobot import messages
 
-from stable_diffusion_api import *
 from mystrings import *
 from openai_api import *
-import re
+from stable_diffusion_api import *
 
 queue = Queue()
 
@@ -32,7 +32,7 @@ def replace_quick_question(txt: str):
 #正则检查文本
 with open('badword.txt', 'r',encoding='UTF-8') as f:
     bad_words = [line.strip() for line in f]
-regex = r'\b(' + '|'.join(bad_words) + r')\b'
+regex = r'\b\S*(' + '|'.join(bad_words) + r')\S*\b'
 def is_allowtxt(user_id,txt: str):
     if re.search(regex, txt, re.IGNORECASE) :
         client.send_text_message(user_id, "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。请您千万不要瞎搞搞啊！多次检测到将直接将您拉黑。")
@@ -45,8 +45,8 @@ def is_paint(txt: str):
     return False
 
 async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道怎么解决。晚点再说吧
-    success = False
-    while not success:
+    count = 0
+    while count < 3:
         try:
             if await get_moderation(txt) == True:
                 print(user_id,"bad word")
@@ -67,39 +67,39 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
                 r_json =  client.upload_media("image",img)# 上传图片
                 img.close()
                 client.send_image_message(user_id, r_json["media_id"])# 发送图片
-                print("send image",txt, user_id, r_json["media_id"])                
-            success = True
+                print("send image",txt, user_id, r_json["media_id"]) 
             return
         except Exception as e:
             print(e)
+        count += 1
 
-async def deal_message(msg):
-    success = False
-    while not success:
-        try:
-            user_id =  msg.source
-            txt = msg.content
-            print("user_id:",user_id,"txt:",txt) 
-            if not is_allowtxt(user_id,txt):        
-                return
-            txt =  replace_quick_question(txt)# 替换快捷问题
-
-            if is_paint(txt) :# 画图
-                await handle_paint(user_id, txt)
-                return
-            success = True
+async def deal_message(msg,session):
+    try:
+        user_id =  msg.source
+        txt = msg.content
+        print("user_id:",user_id,"txt:",txt) 
+        if not is_allowtxt(user_id,txt):        
             return
-            # reply = await get_response([txt])# 生成回复
-            # client.send_text_message(user_id, reply)# 发送回复        
-        except Exception as e:
-            print(e)
+        txt =  replace_quick_question(txt)# 替换快捷问题
+
+        if is_paint(txt) :# 画图
+            await handle_paint(user_id, txt)
+            return
+        # reply = await get_response([txt])# 生成回复
+        # client.send_text_message(user_id, reply)# 发送回复
+        session["in_paint"] = False
+    except Exception as e:
+        print(e)
+    finally:
+        session["in_paint"] = False
+        
 
 
 async def on_message():    
     try:
         while True:
-            (msg) = queue.get()
-            await deal_message(msg)
+            (msg,session) = queue.get()
+            await deal_message(msg,session)
             await asyncio.sleep(2)
     except Exception as e:
         print("\r" + e)
@@ -118,5 +118,5 @@ pool.submit(asyncio.run, on_message())
 pool.submit(asyncio.run, on_message())
 
 
-def get_response(msg) -> None:
-    queue.put((msg))
+def get_response(msg,session) -> None:
+    queue.put((msg,session))
