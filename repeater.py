@@ -12,7 +12,7 @@ from mystrings import *
 from openai_api import *
 import re
 
-queue = Queue(1024)
+queue = Queue()
 
 def __init__(self):
     pass
@@ -94,16 +94,17 @@ async def deal_message(msg):
 
 
 async def on_message():
+    
     try:
         while True:
             (msg) = queue.get()
             await deal_message(msg)
-            time.sleep(2)
+            asyncio.sleep(2)
     except Exception as e:
         print("\r" + e)
 
 
-pool = ThreadPoolExecutor(max_workers=3, thread_name_prefix="on_message")
+pool = ThreadPoolExecutor(max_workers=10, thread_name_prefix="on_message")
 pool.submit(asyncio.run, on_message())
 
 
