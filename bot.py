@@ -31,7 +31,7 @@ user_status = {}
 def no_in_paint(user_status):
     user_status["in_paint"] = False
 def execute_after_five_seconds(user_status):
-    time.sleep(10)
+    time.sleep(5)
     no_in_paint(user_status)
 
 
