@@ -2,6 +2,7 @@
 
 import os
 
+import cryptography
 import werobot
 from dotenv import load_dotenv
 
@@ -12,10 +13,13 @@ AppID = os.getenv("MY_WEROBOT_APPID")
 AppSecret = os.getenv("MY_WEROBOT_APPSECRET")
 token=os.getenv("MY_WEROBOT_TOKEN")
 have_paint =os.getenv("MY_IS_PAINT")
+aes_key=os.getenv('MY_ENCODING_AES_KEY')
+
 
 robot = werobot.WeRoBot( token=token)
 robot.config['APP_ID'] = AppID
 robot.config['APP_SECRET'] = AppSecret
+robot.config['ENCODING_AES_KEY'] = aes_key
 client = robot.client
 
 set_client(client)
@@ -33,7 +37,9 @@ def no_in_paint(user_status):
 def execute_after_five_seconds(user_status):
     time.sleep(5)
     no_in_paint(user_status)
-
+def later_no_paint():
+    thread = threading.Thread(target=execute_after_five_seconds,args=(user_status,))
+    thread.start()
 
 @robot.filter("示例")
 def show_help(message):
@@ -48,8 +54,14 @@ def show_help(message):
 def subscribe(message,session):
     return """以画图开头开始画图，如：
 画图 美少女
-故意发送不雅词汇将被警告并拉黑"""
-    
+请勿发送不雅词汇"""
+
+@robot.voice #我也并不知道语音识别有没有用
+def handler_voice(message):
+    message.content = message.recognition
+    return hello_world(message)
+
+
 @robot.text
 def hello_world(message): 
 
@@ -66,10 +78,7 @@ def hello_world(message):
     # asyncio.run(deal_message(message))
     return "目前只支持画图功能。请发送“画图 XXX”"
 
-def later_no_paint():
-    thread = threading.Thread(target=execute_after_five_seconds,args=(user_status,))
-    thread.start()
-    # return werobot.replies.SuccessReply() # 用于响应微信服务器，不然会重试三次 
+
 
 @robot.handler
 def echo(message):
