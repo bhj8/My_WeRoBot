@@ -8,10 +8,10 @@ load_dotenv()
 #openai.organization = "org-FJzlkB2FVUgCd3naiH46NQT2"
 openai.api_key = os.getenv("OPENAI_API_KEY")
 # Set up the OpenAI API parameters for the conversation model
-# openai.proxy=  {
-#   "http": "http://127.0.0.1:7890",
-#   "https": "http://127.0.0.1:7890",
-# }
+openai.proxy=  {
+  "http": "http://127.0.0.1:7890",
+  "https": "http://127.0.0.1:7890",
+}
 async def get_moderation(imessage: str):
   moderation = await openai.Moderation.acreate(
   input=imessage,

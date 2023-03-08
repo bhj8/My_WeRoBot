@@ -54,7 +54,7 @@ async def get_image(prompt:str):
     time = 0
     while result1 is None:
         time += 1
-        if time > 15:
+        if time > 30:
             return None
         await asyncio.sleep(1)
     
