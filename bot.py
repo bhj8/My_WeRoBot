@@ -55,9 +55,7 @@ def hello_world(message):
 
     if message.content.startswith("画图"):
         if "in_paint" not in user_status or user_status["in_paint"] ==False :
-            user_status["in_paint"] =True            
-            thread = threading.Thread(target=execute_after_five_seconds,args=(user_status,))
-            thread.start()
+            user_status["in_paint"] =True
             later_no_paint()
             get_response(message) 
             return """请稍等，图片生成大约要10秒。
@@ -69,7 +67,7 @@ def hello_world(message):
     return "目前只支持画图功能。请发送“画图 XXX”"
 
 def later_no_paint():
-    thread = threading.Thread(target=execute_after_five_seconds,args=())
+    thread = threading.Thread(target=execute_after_five_seconds,args=(user_status,))
     thread.start()
     # return werobot.replies.SuccessReply() # 用于响应微信服务器，不然会重试三次 
 
