@@ -45,43 +45,52 @@ def is_paint(txt: str):
     return False
 
 async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道怎么解决。晚点再说吧
-    if await get_moderation(txt) == True:
-        print(user_id,"bad word")
-        client.send_text_message(user_id, "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。请您千万不要瞎搞搞啊！")
-        return
-    # client.send_text_message(user_id, "请稍等，图片生成大约要10秒。")
-    txt = await get_translation([txt[3:]]) # 翻译
-   
-    if not have_paint or have_paint  == False:
-        img_path =os.path.join(os.getcwd(), "test.png")
-    else:
-        imageinfo =  await get_image(txt)# 生成图片        
-        if not imageinfo: # 生成失败
-            client.send_text_message(user_id, "很抱歉，图片生成失败。")
-            return 
-        img_path =imageinfo[0]
-    print(img_path)
-    with open(img_path, "rb") as img:
-        r_json =  client.upload_media("image",img)# 上传图片
-        img.close()
-        client.send_image_message(user_id, r_json["media_id"])# 发送图片
-        print("send image",txt, user_id, r_json["media_id"])
+    try:
+        if await get_moderation(txt) == True:
+            print(user_id,"bad word")
+            client.send_text_message(user_id, "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。请您千万不要瞎搞搞啊！")
+            return
+        # client.send_text_message(user_id, "请稍等，图片生成大约要10秒。")
+        txt = await get_translation([txt[3:]]) # 翻译
+    
+        if not have_paint or have_paint  == False:
+            img_path =os.path.join(os.getcwd(), "test.png")
+        else:
+            imageinfo =  await get_image(txt)# 生成图片        
+            if not imageinfo: # 生成失败
+                client.send_text_message(user_id, "很抱歉，图片生成失败。")
+                return 
+            img_path =imageinfo[0]
+        print(img_path)
+        with open(img_path, "rb") as img:
+            r_json =  client.upload_media("image",img)# 上传图片
+            img.close()
+            client.send_image_message(user_id, r_json["media_id"])# 发送图片
+            print("send image",txt, user_id, r_json["media_id"])
+            return
+    except Exception as e:
+        print(e)
         return
 
 async def deal_message(msg):
-    user_id =  msg.source
-    txt = msg.content
-    print("user_id:",user_id,"txt:",txt) 
-    if not is_allowtxt(user_id,txt):        
-        return
-    txt =  replace_quick_question(txt)# 替换快捷问题
+    try:
+        user_id =  msg.source
+        txt = msg.content
+        print("user_id:",user_id,"txt:",txt) 
+        if not is_allowtxt(user_id,txt):        
+            return
+        txt =  replace_quick_question(txt)# 替换快捷问题
 
-    if is_paint(txt) :# 画图
-        await handle_paint(user_id, txt)
+        if is_paint(txt) :# 画图
+            await handle_paint(user_id, txt)
+            return
         return
-    return
-    # reply = await get_response([txt])# 生成回复
-    # client.send_text_message(user_id, reply)# 发送回复
+        # reply = await get_response([txt])# 生成回复
+        # client.send_text_message(user_id, reply)# 发送回复
+    
+    except Exception as e:
+        print(e)
+        return
 
 
 async def on_message():
