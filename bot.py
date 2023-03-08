@@ -28,12 +28,12 @@ set_config(have_paint)
 # def hello(message):
 #     return message.content
 
-@robot.filter("画图")
+@robot.filter("帮助")
 def show_help(message):
-    get_response(message)
-    # asyncio.run(deal_message(message))
-    return "请稍等，图片生成大约要10秒。"
-    # return werobot.replies.SuccessReply() # 用于响应微信服务器，不然会重试三次 
+    return """
+    帮助
+    XXXXX
+    """
 
 #新用户关注
 @robot.subscribe
@@ -44,7 +44,12 @@ def subscribe(message):
     
 @robot.text
 def hello_world(message): 
-    return "目前只支持画图功能，以画图开头开始画图，如：画图 美少女"
+    if message.content.startswith("画图"):
+        get_response(message) 
+        return "请稍等，图片生成大约要10秒。"  
+    # asyncio.run(deal_message(message))
+    return "目前只支持画图功能。请发送“画图 XXX”"
+    # return werobot.replies.SuccessReply() # 用于响应微信服务器，不然会重试三次 
 
 @robot.handler
 def echo(message):
