@@ -35,7 +35,7 @@ with open('badword.txt', 'r',encoding='UTF-8') as f:
 regex = r'\b(' + '|'.join(bad_words) + r')\b'
 def is_allowtxt(user_id,txt: str):
     if re.search(regex, txt, re.IGNORECASE) :
-        client.send_text_message(user_id, "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。请您千万不要瞎搞搞啊！")
+        client.send_text_message(user_id, "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。请您千万不要瞎搞搞啊！多次检测到将直接将您拉黑。")
         return False
     return True
 
@@ -48,9 +48,8 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
     try:
         if await get_moderation(txt) == True:
             print(user_id,"bad word")
-            client.send_text_message(user_id, "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。请您千万不要瞎搞搞啊！")
+            client.send_text_message(user_id, "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。请您千万不要瞎搞搞啊！多次检测到将直接将您拉黑。no zuo no die！！！")
             return
-        # client.send_text_message(user_id, "请稍等，图片生成大约要10秒。")
         txt = await get_translation([txt[3:]]) # 翻译
     
         if not have_paint or have_paint  == False:

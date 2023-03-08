@@ -39,7 +39,8 @@ def show_help(message):
 @robot.subscribe
 def subscribe(message):
     return """以画图开头开始画图，如：
-    画图 美少女"""
+画图 美少女
+故意发送不雅词汇将被警告并拉黑"""
     
 @robot.text
 def hello_world(message): 
