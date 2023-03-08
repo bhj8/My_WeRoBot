@@ -55,15 +55,15 @@ def hello_world(message):
 
     if message.content.startswith("画图"):
         if "in_paint" not in user_status or user_status["in_paint"] ==False :
-            user_status["in_paint"] =True
+            user_status["in_paint"] =True            
+            thread = threading.Thread(target=execute_after_five_seconds,args=(user_status,))
+            thread.start()
             later_no_paint()
             get_response(message) 
             return """请稍等，图片生成大约要10秒。
 今日画风推荐核心关键词：少女，露肩连衣裙，坐姿，小精灵
 输入“示例”查看优秀关键词"""
         else:
-            thread = threading.Thread(target=execute_after_five_seconds,args=(user_status,))
-            thread.start()
             return "请求过于频繁，请稍后再试。"
     # asyncio.run(deal_message(message))
     return "目前只支持画图功能。请发送“画图 XXX”"
