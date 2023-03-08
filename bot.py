@@ -48,6 +48,10 @@ def hello_world(message):
     return "请稍等，图片生成大约要10秒。"
     # return werobot.replies.SuccessReply() # 用于响应微信服务器，不然会重试三次 
 
+@robot.handler
+def echo(message):
+    return "暂时没这个功能，别试了"
+
 
 robot.config['HOST'] = '0.0.0.0'
 robot.config['PORT'] = 80
