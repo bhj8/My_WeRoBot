@@ -61,8 +61,8 @@ async def get_image(prompt:str):
     with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as f:
     # 将 PIL Image 对象保存为临时文件
         result1.image.save(f, format='PNG')
-        f.flush()
-        f.close()  # 关闭文件
+        # f.flush()
+        # f.close()  # 关闭文件
         # new_name = os.path.join(os.path.dirname(f.name), str(result1.info["seed"]) + ".png")
         # os.rename(f.name, new_name)
     # os.rename(f.name, str(result1.info["seed"])+".png")
