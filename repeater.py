@@ -46,6 +46,7 @@ def is_paint(txt: str):
 
 async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道怎么解决。晚点再说吧
     if await get_moderation(txt) == True:
+        print(user_id,"bad word")
         client.send_text_message(user_id, "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。请您千万不要瞎搞搞啊！")
         return
     # client.send_text_message(user_id, "请稍等，图片生成大约要10秒。")
@@ -64,7 +65,7 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
         r_json =  client.upload_media("image",img)# 上传图片
         img.close()
         client.send_image_message(user_id, r_json["media_id"])# 发送图片
-        print("send image", user_id, r_json["media_id"])
+        print("send image",txt, user_id, r_json["media_id"])
         return
 
 async def deal_message(msg):
