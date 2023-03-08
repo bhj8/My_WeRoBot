@@ -32,13 +32,13 @@ set_config(have_paint)
 # def hello(message):
 #     return message.content
 user_status = {}
-def no_in_paint(user_status):
-    user_status["in_paint"] = False
-def execute_after_five_seconds(user_status):
+def no_in_paint(user_status,user_id):
+    user_status.pop(user_id)
+def execute_after_five_seconds(user_status,user_id):
     time.sleep(5)
-    no_in_paint(user_status)
-def later_no_paint():
-    thread = threading.Thread(target=execute_after_five_seconds,args=(user_status,))
+    no_in_paint(user_status,user_id)
+def later_no_paint(user_id):
+    thread = threading.Thread(target=execute_after_five_seconds,args=(user_status,user_id))
     thread.start()
 
 @robot.filter("示例")
@@ -71,9 +71,9 @@ def handler_voice(message):
 def hello_world(message): 
 
     if message.content.startswith("画图"):
-        if "in_paint" not in user_status or user_status["in_paint"] ==False :
-            user_status["in_paint"] =True
-            later_no_paint()
+        if message.source not in user_status:
+            user_status[message.source] =True
+            later_no_paint(message.source)
             get_response(message) 
             return """请稍等，图片生成大约要10秒。
 今日画风推荐核心关键词：少女，露肩连衣裙，坐姿，小精灵
