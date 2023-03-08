@@ -8,6 +8,7 @@ import webuiapi
 
 # create API client with custom host, port
 api = webuiapi.WebUIApi(host='127.0.0.1', port=7860)
+api_url = "127.0.0.1:7860"
 
 # create API client with custom host, port and https
 # api = webuiapi.WebUIApi(host='https://5c2a0775-930e-4f2c.gradio.live', port=443, use_https=True)
@@ -32,8 +33,8 @@ async def get_image(prompt:str):
                         seed=-1,
                         styles=[],
                         cfg_scale=10,
-                        width=512,
-                        height=768,
+                        width=#512,
+                        height=#768,
                         sampler_index='DPM++2M Karras',
                         steps=20,
                         #  enable_hr=True,
@@ -59,7 +60,20 @@ async def get_image(prompt:str):
     result1.image.save(buffer, format="PNG")
     return [buffer, result1.info]
 # result1.images
+import requests
 
+# 设置API地址
+api_url = "http://localhost:7860"
+
+# 获取可用检查点列表
+response = requests.get(f"{api_url}/sdapi/v1/availablecheckpoints")
+checkpoints = response.json()
+print("Available checkpoints:", checkpoints)
+
+# 设置当前检查点
+checkpoint_to_set = checkpoints[1] 
+response = requests.post(f"{api_url}/sdapi/v1/checkpoint", json={"checkpoint": checkpoint_to_set})
+print("Response:", response.text)
 # result1.image
 if __name__ == '__main__':
     asyncio.run(get_image("cute squirrel"))

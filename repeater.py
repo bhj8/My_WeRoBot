@@ -10,6 +10,7 @@ from werobot import messages
 import stable_diffusion_api
 from mystrings import *
 from openai_api import *
+import re
 
 queue = Queue(1024)
 
@@ -27,6 +28,16 @@ def replace_quick_question(txt: str):
     if txt in ["1", "2", "3", "4", "5", "6", "7"]:
         return quick_question[int(txt)-1]
     return txt
+
+#正则检查文本
+with open('badword.txt', 'r',encoding='UTF-8') as f:
+    bad_words = [line.strip() for line in f]
+regex = r'\b(' + '|'.join(bad_words) + r')\b'
+def is_allowtxt(user_id,txt: str):
+    if re.search(regex, txt, re.IGNORECASE) :
+        client.send_text_message(user_id, "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。请您千万不要瞎搞搞啊！")
+        return False
+    return True
 
 def is_paint(txt: str):
     if txt.startswith("画图"):
@@ -56,8 +67,10 @@ async def deal_message(msg:messages):
     user_id =  msg.source
     txt = msg.content
     print("user_id:",user_id,"txt:",txt) 
-
+    if not is_allowtxt(user_id,txt):        
+        return
     txt =  replace_quick_question(txt)# 替换快捷问题
+
     if is_paint(txt) :# 画图
         await handle_paint(user_id, txt)
         return
@@ -76,7 +89,7 @@ async def on_message():
         print("\r" + e)
 
 
-pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix="on_message")
+pool = ThreadPoolExecutor(max_workers=10, thread_name_prefix="on_message")
 pool.submit(asyncio.run, on_message())
 
 

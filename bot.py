@@ -19,6 +19,10 @@ robot.config['APP_SECRET'] = AppSecret
 client = robot.client
 
 set_client(client)
+if have_paint == "True":
+    have_paint = True
+else:
+    have_paint = False
 set_config(have_paint)
 # @robot.handler
 # def hello(message):
@@ -36,7 +40,7 @@ def show_help(message):
 def subscribe(message):
     return """以画图开头开始画图，如：
     画图 美少女"""
-
+    
 @robot.text
 def hello_world(message): 
     get_response(message)
