@@ -60,20 +60,20 @@ async def get_image(prompt:str):
     result1.image.save(buffer, format="PNG")
     return [buffer, result1.info]
 # result1.images
-import requests
+# import requests
 
-# 设置API地址
-api_url = "http://localhost:7860"
+# # 设置API地址
+# api_url = "http://localhost:7860"
 
-# 获取可用检查点列表
-response = requests.get(f"{api_url}/sdapi/v1/availablecheckpoints")
-checkpoints = response.json()
-print("Available checkpoints:", checkpoints)
+# # 获取可用检查点列表
+# response = requests.get(f"{api_url}/sdapi/v1/availablecheckpoints")
+# checkpoints = response.json()
+# print("Available checkpoints:", checkpoints)
 
-# 设置当前检查点
-checkpoint_to_set = checkpoints[1] 
-response = requests.post(f"{api_url}/sdapi/v1/checkpoint", json={"checkpoint": checkpoint_to_set})
-print("Response:", response.text)
+# # 设置当前检查点
+# checkpoint_to_set = checkpoints[1] 
+# response = requests.post(f"{api_url}/sdapi/v1/checkpoint", json={"checkpoint": checkpoint_to_set})
+# print("Response:", response.text)
 # result1.image
 if __name__ == '__main__':
     asyncio.run(get_image("cute squirrel"))
