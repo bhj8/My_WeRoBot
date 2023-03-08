@@ -94,7 +94,7 @@ async def on_message():
         print("\r" + e)
 
 
-pool = ThreadPoolExecutor(max_workers=10, thread_name_prefix="on_message")
+pool = ThreadPoolExecutor(max_workers=3, thread_name_prefix="on_message")
 pool.submit(asyncio.run, on_message())
 
 
