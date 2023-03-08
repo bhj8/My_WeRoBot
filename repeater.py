@@ -48,7 +48,7 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
     if await get_moderation(txt) == True:
         client.send_text_message(user_id, "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。请您千万不要瞎搞搞啊！")
         return
-    client.send_text_message(user_id, "请稍等，图片生成大约要10秒。")
+    # client.send_text_message(user_id, "请稍等，图片生成大约要10秒。")
     txt = await get_translation([txt[3:]]) # 翻译
    
     if not have_paint or have_paint  == False:

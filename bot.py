@@ -45,7 +45,8 @@ def subscribe(message):
 def hello_world(message): 
     get_response(message)
     # asyncio.run(deal_message(message))
-    return werobot.replies.SuccessReply()
+    return "请稍等，图片生成大约要10秒。"
+    # return werobot.replies.SuccessReply() # 用于响应微信服务器，不然会重试三次 
 
 
 robot.config['HOST'] = '0.0.0.0'
