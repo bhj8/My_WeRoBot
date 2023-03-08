@@ -78,16 +78,18 @@ async def deal_message(msg,session):
         user_id =  msg.source
         txt = msg.content
         print("user_id:",user_id,"txt:",txt) 
-        if not is_allowtxt(user_id,txt):        
+        if not is_allowtxt(user_id,txt):
+            session["in_paint"] = False
             return
         txt =  replace_quick_question(txt)# 替换快捷问题
 
         if is_paint(txt) :# 画图
             await handle_paint(user_id, txt)
+            session["in_paint"] = False
             return
         # reply = await get_response([txt])# 生成回复
         # client.send_text_message(user_id, reply)# 发送回复
-        session["in_paint"] = False
+        
     except Exception as e:
         print(e)
     finally:
