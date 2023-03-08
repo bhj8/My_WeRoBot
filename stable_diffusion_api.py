@@ -52,13 +52,15 @@ async def get_image(prompt:str):
     time = 0
     while result1 is None:
         time += 1
-        if time > 10:
+        if time > 15:
             return None
         await asyncio.sleep(1)
     
     buffer = io.BytesIO()
     result1.image.save(buffer, format="PNG")
-    return [buffer, result1.info]
+    image_file = io.BufferedReader(buffer)
+    #filename=str(result1.info["seed"])+".png"
+    return [image_file, result1.info]
 # result1.images
 # import requests
 
