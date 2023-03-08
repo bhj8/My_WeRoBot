@@ -95,8 +95,7 @@ async def deal_message(msg):
             print(e)
 
 
-async def on_message():
-    
+async def on_message():    
     try:
         while True:
             (msg) = queue.get()
@@ -108,7 +107,15 @@ async def on_message():
 
 pool = ThreadPoolExecutor(max_workers=10, thread_name_prefix="on_message")
 pool.submit(asyncio.run, on_message())
-
+pool.submit(asyncio.run, on_message())
+pool.submit(asyncio.run, on_message())
+pool.submit(asyncio.run, on_message())
+pool.submit(asyncio.run, on_message())
+pool.submit(asyncio.run, on_message())
+pool.submit(asyncio.run, on_message())
+pool.submit(asyncio.run, on_message())
+pool.submit(asyncio.run, on_message())
+pool.submit(asyncio.run, on_message())
 
 
 def get_response(msg) -> None:
