@@ -7,7 +7,7 @@ from queue import Queue
 
 from werobot import messages
 
-import stable_diffusion_api
+from stable_diffusion_api import *
 from mystrings import *
 from openai_api import *
 import re
@@ -53,10 +53,11 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
     if not have_paint or have_paint  == False:
         img = open("test.png", "rb")
     else:
-        imageinfo =  await stable_diffusion_api.get_image(txt)# 生成图片
+        imageinfo =  await get_image(txt)# 生成图片        
         if not imageinfo: # 生成失败
             client.send_text_message(user_id, "很抱歉，图片生成失败。")
             return 
+        img =imageinfo[0]
     r_json =  client.upload_media("image",img)# 上传图片
     img.close()
     client.send_image_message(user_id, r_json["media_id"])# 发送图片
