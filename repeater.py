@@ -85,7 +85,7 @@ async def on_message():
         while True:
             (msg) = queue.get()
             await deal_message(msg)
-            time.sleep(1)
+            time.sleep(3)
     except Exception as e:
         print("\r" + e)
 
