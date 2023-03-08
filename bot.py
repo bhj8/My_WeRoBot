@@ -28,11 +28,12 @@ set_config(have_paint)
 # def hello(message):
 #     return message.content
 
-@robot.filter("帮助")
+@robot.filter("示例")
 def show_help(message):
     return """
-    帮助
-    XXXXX
+画图 少女肖像, 脸, 特写, 尖耳朵, 连衣裙, 半闭眼, 首饰, 坐姿, 露肩, 露肩连衣裙, 水印, 皇冠，灰色连衣裙，长发，辫子，白发，长睫毛，独奏，小精灵
+
+画图 两个女孩的肖像，脸，特写，尖耳朵，连衣裙，珠宝，坐姿，裸肩，头饰，灰色连衣裙, 长发, 辫子, 白发, 长睫毛, 侧脸, 精灵, 写实色彩,公主, 卷发，长发，闭上眼睛，
     """
 
 #新用户关注
@@ -46,7 +47,9 @@ def subscribe(message):
 def hello_world(message): 
     if message.content.startswith("画图"):
         get_response(message) 
-        return "请稍等，图片生成大约要10秒。"  
+        return """请稍等，图片生成大约要10秒。
+今日画风推荐核心关键词：少女，露肩连衣裙，坐姿，小精灵
+输入“示例”查看优秀关键词"""
     # asyncio.run(deal_message(message))
     return "目前只支持画图功能。请发送“画图 XXX”"
     # return werobot.replies.SuccessReply() # 用于响应微信服务器，不然会重试三次 
