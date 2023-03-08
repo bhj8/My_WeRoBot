@@ -61,11 +61,6 @@ async def get_image(prompt:str):
     save_path = os.path.join(os.getcwd(), 'images')
     save_file = os.path.join(save_path, str(result1.info["seed"]) + ".png")
     result1.image.save(save_file)
-    # f.flush()
-    # f.close()  # 关闭文件
-    # new_name = os.path.join(os.path.dirname(f.name), str(result1.info["seed"]) + ".png")
-    # os.rename(f.name, new_name)
-# os.rename(f.name, str(result1.info["seed"])+".png")
     return [save_file,result1.info]
 
 # result1.images
