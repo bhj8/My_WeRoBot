@@ -101,7 +101,7 @@ async def on_message():
         while True:
             (msg) = queue.get()
             await deal_message(msg)
-            asyncio.sleep(2)
+            await asyncio.sleep(2)
     except Exception as e:
         print("\r" + e)
 
