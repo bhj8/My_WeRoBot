@@ -50,11 +50,11 @@ async def get_image(prompt:str):
 
     #这里很有问题啊！！！！！！！因为还没画好，我也不知道怎么办？先这样弄一下好了。
     time = 0
-    while result1 ==None or result1.image == None or time < 10:
-        await asyncio.sleep(1)
+    while result1 is None:
         time += 1
-        if time >= 10:
+        if time > 10:
             return None
+        await asyncio.sleep(1)
     
     buffer = io.BytesIO()
     result1.image.save(buffer, format="PNG")
