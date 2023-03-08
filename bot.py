@@ -54,6 +54,8 @@ def hello_world(message, session):
 今日画风推荐核心关键词：少女，露肩连衣裙，坐姿，小精灵
 输入“示例”查看优秀关键词"""
         else:
+            thread = threading.Thread(target=execute_after_five_seconds,args=(session))
+            thread.start()
             return "正在有图片绘制中，请稍等再发送画图消息！"
     # asyncio.run(deal_message(message))
     return "目前只支持画图功能。请发送“画图 XXX”"

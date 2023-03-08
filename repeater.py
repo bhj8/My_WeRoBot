@@ -1,6 +1,7 @@
 
 import io
 import re
+import threading
 import time
 from concurrent.futures import (ALL_COMPLETED, FIRST_EXCEPTION,
                                 ThreadPoolExecutor, wait)
@@ -73,27 +74,31 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
             print(e)
         count += 1
 
+def no_in_paint(session):
+    session["in_paint"] = False
+def execute_after_five_seconds(session):
+    time.sleep(20)
+    no_in_paint(session)
+
 async def deal_message(msg,session):
+    thread = threading.Thread(target=execute_after_five_seconds,args=(session))
+    thread.start()
     try:
         user_id =  msg.source
         txt = msg.content
         print("user_id:",user_id,"txt:",txt) 
         if not is_allowtxt(user_id,txt):
-            session["in_paint"] = False
             return
         txt =  replace_quick_question(txt)# 替换快捷问题
 
         if is_paint(txt) :# 画图
             await handle_paint(user_id, txt)
-            session["in_paint"] = False
             return
         # reply = await get_response([txt])# 生成回复
         # client.send_text_message(user_id, reply)# 发送回复
         
     except Exception as e:
         print(e)
-    finally:
-        session["in_paint"] = False
         
 
 
