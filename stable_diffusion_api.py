@@ -59,6 +59,9 @@ async def get_image(prompt:str):
         await asyncio.sleep(1)
     
     save_path = os.path.join(os.getcwd(), 'images')
+    # 创建保存文件的文件夹
+    if not os.path.exists(save_path):
+        os.mkdir(save_path)
     save_file = os.path.join(save_path, str(result1.info["seed"]) + ".png")
     result1.image.save(save_file)
     return [save_file,result1.info]

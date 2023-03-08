@@ -50,20 +50,22 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
         return
     client.send_text_message(user_id, "请稍等，图片生成大约要10秒。")
     txt = await get_translation([txt[3:]]) # 翻译
+   
     if not have_paint or have_paint  == False:
-        img = open("test.png", "rb")
+        img_path =os.path.join(os.getcwd(), "test.png")
     else:
         imageinfo =  await get_image(txt)# 生成图片        
         if not imageinfo: # 生成失败
             client.send_text_message(user_id, "很抱歉，图片生成失败。")
             return 
-        img =imageinfo[0]
-    print(img)
-    r_json =  client.upload_media("image",img)# 上传图片
-    img.close()
-    client.send_image_message(user_id, r_json["media_id"])# 发送图片
-    print("send image", user_id, r_json["media_id"])
-    return
+        img_path =imageinfo[0]
+    print(img_path)
+    with open(img_path, "rb") as img:
+        r_json =  client.upload_media("image",img)# 上传图片
+        img.close()
+        client.send_image_message(user_id, r_json["media_id"])# 发送图片
+        print("send image", user_id, r_json["media_id"])
+        return
 
 async def deal_message(msg:messages):
     user_id =  msg.source
