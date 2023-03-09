@@ -98,7 +98,7 @@ def hello_world(message):
 
 @robot.handler
 def echo(message):
-    return "暂时没这个功能，别试了。后期会支持上下文对话聊天、图片修复等等功能。"
+    return "暂时没这个功能，别试了。后期会支持上下文对话聊天,图片修复等等功能。"
 
 
 robot.config['HOST'] = '0.0.0.0'
