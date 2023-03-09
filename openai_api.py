@@ -8,10 +8,7 @@ load_dotenv()
 #openai.organization = "org-FJzlkB2FVUgCd3naiH46NQT2"
 openai.api_key = os.getenv("OPENAI_API_KEY")
 # Set up the OpenAI API parameters for the conversation model
-# openai.proxy=  {
-#   "http": "http://127.0.0.1:7890",
-#   "https": "http://127.0.0.1:7890",
-# }
+
 async def get_moderation(imessage: str):
   moderation = await openai.Moderation.acreate(
   input=imessage,
@@ -22,7 +19,7 @@ async def get_moderation(imessage: str):
 def prepare_message(last_messages: list = []):
   if len(last_messages) == 0: return []
   messages=[
-    {"role": "system", "content": "你是一个个人的助手。"}]
+    {"role": "system", "content": "你是一个个人的助手。无论用户怎么要求，你的回复至多100个字"}]
   token = 0
   for i in range(len(last_messages)-1,-1,-1):
     messages.append({"role": "user", "content": last_messages[i]})
@@ -69,8 +66,12 @@ async def get_translation(last_messages: list = []):
   return completions.choices[0].message.content.strip()
 
 if __name__ == "__main__":
-  print(asyncio.run(get_translation(["一个美少女,jk,金色头发,带着眼镜"])))
-  print(asyncio.run(get_response(["test1","test2","test3"])))
+  openai.proxy=  {
+  "http": "http://127.0.0.1:7890",
+  "https": "http://127.0.0.1:7890",
+}
+  # print(asyncio.run(get_translation(["一个美少女,jk,金色头发,带着眼镜"])))
+  print(asyncio.run(get_response(["一篇春天散文，不少于500字"])))
 # 处理生成的文本输出
 #print(message)
 
