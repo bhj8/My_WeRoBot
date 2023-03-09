@@ -46,7 +46,7 @@ async def get_image(prompt:str):
                          hr_resize_x=768,
                          hr_resize_y=1248,
                          denoising_strength=0.5,
-
+                         restore_faces = True,
                         )
     # images contains the returned images (PIL images)
 

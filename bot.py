@@ -88,7 +88,7 @@ def hello_world(message):
             get_response(message) 
             return """请稍等，图片生成大约要20秒。
 输入“示例”查看优秀关键词,题词技巧。
-限时开启超高清模式，画面会更加完美，但是生成时间会更长。"""
+全新画风！限时开启超高清模式，画面会更加完美，但是生成时间会更长。"""
         else:
             return "请求过于频繁，请稍后再试。"
     # asyncio.run(deal_message(message))
