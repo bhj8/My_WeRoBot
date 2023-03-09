@@ -33,7 +33,7 @@ def replace_quick_question(txt: str):
 #正则检查文本
 with open('badword.txt', 'r',encoding='UTF-8') as f:
     bad_words = [line.strip() for line in f]
-regex = r'\b\S*(' + '|'.join(bad_words) + r')\S*\b'
+regex = r'\b(' + '|'.join(bad_words) + r')\b'
 def is_allowtxt(user_id,txt: str):
     if re.search(regex, txt, re.IGNORECASE) :
         client.send_text_message(user_id, "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。请您千万不要瞎搞搞啊！短时间内频繁检测到将可能会被限制使用。")
