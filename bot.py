@@ -81,16 +81,16 @@ def handler_voice(message):
 @robot.text
 def hello_world(message): 
 
-    if message.content.startswith("画图"):
-        if message.source not in user_status:
-            user_status[message.source] =True
-            later_no_paint(message.source)
-            get_response(message) 
-            return """请稍等，图片生成大约要20秒。
-输入“示例”查看优秀关键词,题词技巧。
-全新画风！限时开启超高清模式，画面会更加完美，但是生成时间会更长。"""
-        else:
-            return "请求过于频繁，请稍后再试。"
+#     if message.content.startswith("画图"):
+#         if message.source not in user_status:
+#             user_status[message.source] =True
+#             later_no_paint(message.source)
+#             get_response(message) 
+#             return """请稍等，图片生成大约要20秒。
+# 输入“示例”查看优秀关键词,题词技巧。
+# 全新画风！限时开启超高清模式，画面会更加完美，但是生成时间会更长。"""
+#         else:
+#             return "请求过于频繁，请稍后再试。"
     # asyncio.run(deal_message(message))
     return "目前只支持画图功能。请发送“画图 XXX”"
 
