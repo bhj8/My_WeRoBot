@@ -35,7 +35,7 @@ user_status = {}
 def no_in_paint(user_status,user_id):
     user_status.pop(user_id)
 def execute_after_five_seconds(user_status,user_id):
-    time.sleep(5)
+    time.sleep(20)
     no_in_paint(user_status,user_id)
 def later_no_paint(user_id):
     thread = threading.Thread(target=execute_after_five_seconds,args=(user_status,user_id))
@@ -91,7 +91,7 @@ def hello_world(message):
 全新画风！限时开启超高清模式，画面会更加完美，但是生成时间会更长。
 高清图微信会自动压缩，请点开图片后在左下角点击“查看原图”查看高清原图。"""
         else:
-            return "请求过于频繁，请稍后再试。"
+            return "请求过于频繁，请稍后再试。超高清模式下，20秒内只能画一张。请谅解"
     # asyncio.run(deal_message(message))
     return "目前只支持画图功能。请发送“画图 XXX”"
 
