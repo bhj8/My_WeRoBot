@@ -87,7 +87,7 @@ def is_allowtxt(user_id,txt: str):
 
 @robot.text
 def hello_world(message): 
-    if not is_allowtxt(message.source,message.content) == False:
+    if not is_allowtxt(message.source,message.content) :
         return "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。请您千万不要瞎搞搞啊！短时间内频繁检测到将可能会被限制使用。"
 
     if message.content.startswith("画图"):
