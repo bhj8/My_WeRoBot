@@ -22,7 +22,7 @@ api_url = "127.0.0.1:7860"
 # api.set_auth('username', 'password')
 first_txt = "masterpiece, best quality, ultra-detailed,  "
 end_txt = ", foreground, middle ground, background, perspective, light, color, texture, detail, beauty, wonder"
-ban_txt= ",bad feet,glans,nipples,underwear, panties,nsfw"
+ban_txt= ",bad feet,glans,nipples,nsfw,NSFW"
 def handle_prompt(prompt):
     prompt= first_txt + prompt + end_txt
     print(prompt)
