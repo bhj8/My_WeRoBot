@@ -22,7 +22,7 @@ api_url = "127.0.0.1:7860"
 # api.set_auth('username', 'password')
 first_txt = "masterpiece, best quality, ultra-detailed,  "
 end_txt = ", foreground, middle ground, background, perspective, light, color, texture, detail, beauty, wonder"
-ban_txt= ",bad feet,glans,nipples,underwear, panties"
+ban_txt= ",bad feet,glans,nipples,underwear, panties,nsfw"
 def handle_prompt(prompt):
     prompt= first_txt + prompt + end_txt
     print(prompt)
@@ -31,7 +31,7 @@ def handle_prompt(prompt):
 async def get_image(prompt:str):
     result1 = None
     result1 = api.txt2img(prompt=handle_prompt(prompt),#"cute squirrel"
-                        negative_prompt="""nsfw,worst quality, low quality:1.4), (depth of field, blurry:1.2), (greyscale, monochrome:1.1), extra fingers,fewer fingers, extra legs, extra hands,3D face, cropped, lowres, text, jpeg artifacts, signature, watermark, username, blurry, artist name, trademark, watermark, title, multiple view, Reference sheet, curvy, trabismus,"""+ban_txt,
+                        negative_prompt="""nsfw,worst quality, low quality:1.4), (depth of field, blurry:1.2), (greyscale, monochrome:1.1), extra fingers,fewer fingers, extra legs, extra hands,3D face, cropped, lowres, text, jpeg artifacts, signature, watermark, username, blurry, artist name, trademark, watermark, title, multiple view, Reference sheet, curvy,  plump, fat, muscular female, strabismus,"""+ban_txt,
                         seed=-1,
                         styles=[],
                         cfg_scale=8,
