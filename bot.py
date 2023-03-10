@@ -70,6 +70,7 @@ def subscribe(message,session):
 
 公众号正在开发中，有时会突然停机更新。几分钟就好了。
 更多更强大功能开发中！
+后期会支持上下文对话聊天,图片修复等等功能。
 """
 
 @robot.voice #我也并不知道语音识别有没有用
@@ -88,7 +89,7 @@ def is_allowtxt(user_id,txt: str):
 @robot.text
 def hello_world(message): 
     if not is_allowtxt(message.source,message.content) :
-        return "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。请您千万不要瞎搞搞啊！短时间内频繁检测到将可能会被限制使用。"
+        return "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。所有图片已开始人工审核，多次尝试画出法律不允许的内容，没有警告直接拉黑"
 
     if message.content.startswith("画图"):
         if message.source not in user_status:
