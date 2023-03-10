@@ -77,9 +77,18 @@ def handler_voice(message):
     message.content = message.recognition
     return hello_world(message)
 
+with open('badword.txt', 'r',encoding='UTF-8') as f:
+    bad_words = [line.strip() for line in f]
+regex = r'\b\S*(' + '|'.join(bad_words) + r')\S*\b'
+def is_allowtxt(user_id,txt: str):
+    if re.search(regex, txt, re.IGNORECASE) :
+        return False
+    return True
 
 @robot.text
 def hello_world(message): 
+    if not is_allowtxt(message.source,message.content) == False:
+        return "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。请您千万不要瞎搞搞啊！短时间内频繁检测到将可能会被限制使用。"
 
     if message.content.startswith("画图"):
         if message.source not in user_status:
