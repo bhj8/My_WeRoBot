@@ -88,21 +88,20 @@ def show_help(message):
 
 @robot.filter("种子")
 def show_help(message):
-    return"""遇到好看的画，请保存好（种子）。
+    return"""遇到好看的画，请保存好（种子）和整段（提示词）的消息。
 未来开通4k8k分辨率后，可以再次细绘该图。
 种子绘高清图功能还在发开中！！！目前无法使用。但是您可以保存好种子，以便开放后绘制。"""
 
 #新用户关注
 @robot.subscribe
 def subscribe(message,session):
-    return """我是小慧，目前提供画图功能。请输入：
-画图 XXX
-即可开始画图。支持语音输入。
+    return """我是小慧，可以聊天和提供画图功能。请输入：
+"画图 女孩" 即可开始画图。支持语音输入。
 请勿发送不雅词汇
 
 公众号正在开发中，有时会突然停机更新。几分钟就好了。
 更多更强大功能开发中！
-后期会支持上下文对话聊天,图片修复等等功能。
+后期会支持图片修复等等功能。
 """
 
 @robot.voice #我也并不知道语音识别有没有用
@@ -118,6 +117,8 @@ def is_allowtxt(user_id,txt: str):
     if re.search(regex, txt, re.IGNORECASE) :
         return False
     return True
+def replace_badword(txt: str):
+    return re.sub(regex, '*', txt, flags=re.IGNORECASE)
 
 @robot.text
 def hello_world(message,session): 
@@ -149,7 +150,7 @@ def hello_world(message,session):
             seed = generate_seed(message.source + message.content)
             # session[str(seed)] = message.content
             # asyncio.run(deal_message(message,{"seed":seed})) #临时测试用
-            get_response(message,{"seed":seed})
+            get_response(message,{"seed":seed,"mode":"paint","session":session})
 
             return f"""请稍等，图片生成大约要20秒。
 输入“示例”查看优秀关键词,题词技巧。
@@ -160,8 +161,16 @@ def hello_world(message,session):
 """
         else:
             return "请求过于频繁，请稍后再试。超高清模式下，20秒内只能画一张。请谅解"
-    # asyncio.run(deal_message(message))
-    return "目前只支持画图功能。请发送“画图 XXX”"
+    messages.content = replace_badword(message.content)
+    get_response(message,{"session":session,"mode":"chat"})
+    
+    if "图" in message.content or "画" in message.content :
+        return "想要画图，请以画图会开头。例如：画图 金发女孩"
+
+    #一个success的return，不然会报错
+    return "success"
+
+    
 
 
 

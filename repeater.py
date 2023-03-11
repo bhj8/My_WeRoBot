@@ -70,7 +70,8 @@ async def handle_paint(user_id, txt,seed): #这些接口会卡住，我也不知
             print(e)
         count += 1
 
-async def deal_message(msg,dic):
+
+async def try2paint(msg, dic):
     try:
         user_id =  msg.source
         txt = msg.content
@@ -81,13 +82,41 @@ async def deal_message(msg,dic):
 
         await handle_paint(user_id, txt,seed )
         return
-        # reply = await get_response([txt])# 生成回复
-        # client.send_text_message(user_id, reply)# 发送回复
-        
+            # reply = await get_response([txt])# 生成回复
+            # client.send_text_message(user_id, reply)# 发送回复
+            
     except Exception as e:
         print(e)
-        
+            
+async def try2chat(msg, dic):
+    try:
+        session = dic["session"]
+        lis = []
+        if "three_last_message" in session:
+            lis.append(session["one_last_message"])
+        if "two_last_message" in session:
+            lis.append(session["two_last_message"])
+        if "one_last_message" in session:
+            lis.append(session["one_last_message"])
+        lis.append(msg.content) 
+        result =  get_chat_response(msg, lis)
+        if get_moderation(result) :
+            client.send_text_message(msg.source, "很抱歉，我不喜欢聊这个话题。让我们换换其它话题吧！")
+            return        
+        client.send_text_message(msg.source, get_chat_response(msg, lis))
+        if "two_last_message" in session:
+            session["three_last_message"] = session["two_last_message"]
+        if "one_last_message" in session:
+            session["two_last_message"] = session["one_last_message"]
+        session["one_last_message"] = msg.content
+    except Exception as e:
+        print(e)
 
+async def deal_message(msg,dic):
+    if dic["mode"] =="paint":
+        return await try2paint(msg, dic)
+    if dic["mode"] =="chat":
+        return await try2chat(msg, dic)
 
 async def on_message():    
     try:

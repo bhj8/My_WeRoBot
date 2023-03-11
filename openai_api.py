@@ -9,31 +9,48 @@ load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
 # Set up the OpenAI API parameters for the conversation model
 
-async def get_moderation(imessage: str):
+async def get_moderation(imessage: str):#是否有不当内容  True 有不当内容
   moderation = await openai.Moderation.acreate(
   input=imessage,
   )
   return moderation.results[0].flagged
 
-#list的排序从最旧到最新
+#进来的list的排序从最旧到最新
 def prepare_message(last_messages: list = []):
   if len(last_messages) == 0: return []
   messages=[
-    {"role": "system", "content": "你是一个个人的助手。无论用户怎么要求，你的回复至多100个字"}]
+    {"role": "system", "content": "你是一个个人的助手。你的回复限定在200字"}]
   token = 0
-  for i in range(len(last_messages)-1,-1,-1):
-    messages.append({"role": "user", "content": last_messages[i]})
+  for i in range(len(last_messages)-1):
+    old_message = last_messages[i] + "\n"    
     token = token + len(last_messages[i])
-    if token > 2000:      
+    if token > 200:      
       break
-  return messages[::-1]
+  messages.append({"role": "user", "content":"以下我之前和你说过的话："+ old_message})
+  messages.append({"role": "assistant", "content": "好的，我知道了。"})
+  messages.append({"role": "user", "content": last_messages[-1]})
+  return messages
 
 
-async def get_response(last_messages: list = [])->str:
+async def get_chat_response(last_messages: list = [])->str:
   completions = await openai.ChatCompletion.acreate(
     model="gpt-3.5-turbo",
-    presence_penalty = 0,
-    top_p = 0.2, 
+    #temperature = 0.5,
+    presence_penalty = 1,
+    #frequency_penalty = 0.5,
+
+    top_p = 0.2,     
+    #n = 1,
+    #stream = False,
+    stop =" ",# [ " User:", " Assistant:"],
+    max_tokens = 500,
+    messages=prepare_message(last_messages),
+    
+  )
+  # Return the response
+  return completions.choices[0].message.content.strip()
+
+
       # messages=[
       #     {"role": "system", "content": "You are a talking Tommy cat."},
       #     {"role": "user", "content": "Please play a talking Tommy cat and chat with child.please say yes if you can"},#You can briefly decline to answer uncomfortable questions.
@@ -43,12 +60,6 @@ async def get_response(last_messages: list = [])->str:
       #     {"role": "user", "content": "请帮我翻译以下英文，谢谢"},
       #     {"role": "assistant", "content": "好的，请你告诉我要翻译的内容"},
       # ]
-    messages=prepare_message(last_messages)
-    
-  )
-  # Return the response
-  return completions.choices[0].message.content.strip()
-
 async def get_translation(last_messages: list = []):
   completions = await openai.ChatCompletion.acreate(
     model="gpt-3.5-turbo",
@@ -71,8 +82,8 @@ if __name__ == "__main__":
   "https": "http://127.0.0.1:7890",
 }
   # print(asyncio.run(get_translation(["一个美少女,jk,金色头发,带着眼镜"])))
-  # print(asyncio.run(get_response(["一篇春天散文，不少于500字"])))
-  print(asyncio.run(get_moderation(["审核能力测试"])))
+  print(asyncio.run(get_chat_response(["写一篇散文","我要画","草莓是什么","如何种植草莓"])))
+  # print(asyncio.run(get_moderation(["审核能力测试"])))
 # 处理生成的文本输出
 #print(message)
 
