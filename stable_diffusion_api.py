@@ -83,4 +83,4 @@ async def get_image(prompt:str,seed:int):
 # print("Response:", response.text)
 # result1.image
 if __name__ == '__main__':
-    asyncio.run(get_image("cute squirrel"))
+    asyncio.run(get_image("cute squirrel",196414898))
