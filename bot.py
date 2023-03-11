@@ -109,7 +109,8 @@ def is_allowtxt(user_id,txt: str):
 
 @robot.text
 def hello_world(message,session): 
-    session['user_id'] = message.source
+    if not session.get('user_id'):
+        session['user_id'] = message.source
     if "use_num" not in session:
         session["use_num"] = session["use_num"] +1
 
