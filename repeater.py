@@ -106,9 +106,9 @@ async def try2chat(msg, dic):
         result =  await get_chat_response(lis)
         if await get_moderation(result) :
             client.send_text_message(msg.source, "很抱歉，我不喜欢聊这个话题。让我们换换其它话题吧！")
-            return
-        client.send_text_message(msg.source, result)    
+            return        
         result =  replace_badword(result)    
+        client.send_text_message(msg.source, result)    
         print(msg.source,"send","  chat message  ",len(result))
         if "two_last_message" in session:
             session["three_last_message"] = session["two_last_message"]
