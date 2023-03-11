@@ -10,9 +10,9 @@ from queue import Queue
 from werobot import messages
 
 from mystrings import *
+from nsfw_api import *
 from openai_api import *
 from stable_diffusion_api import *
-from nsfw_api import *
 
 queue = Queue()
 
@@ -30,16 +30,6 @@ def replace_quick_question(txt: str):
     if txt in ["1", "2", "3", "4", "5", "6", "7"]:
         return quick_question[int(txt)-1]
     return txt
-
-#正则检查文本
-with open('badword.txt', 'r',encoding='UTF-8') as f:
-    bad_words = [line.strip() for line in f]
-regex = r'\b\S*(' + '|'.join(bad_words) + r')\S*\b'
-def is_allowtxt(user_id,txt: str):
-    if re.search(regex, txt, re.IGNORECASE) :
-        client.send_text_message(user_id, "很抱歉，您的问题中可能包含不雅语义，我不会做出任何回答。频繁检测到将可能会被限制使用。")
-        return False
-    return True
 
 def is_paint(txt: str):
     if txt.startswith("画图"):
@@ -65,7 +55,8 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
                     return 
                 img_path =imageinfo[0]
             print(img_path)
-            if not  is_safe(img_path):
+            if not  is_safe(img_path):                
+                print(user_id,"bad image")
                 client.send_text_message(user_id, "很抱歉，虽然图片已生成。但经过AI自行判断，您关键词生成的图片可能含有不雅内容。频繁检测到将可能会被限制使用")
             with open(img_path, "rb") as img:
                 r_json =  client.upload_media("image",img)# 上传图片
@@ -82,8 +73,7 @@ async def deal_message(msg):
         user_id =  msg.source
         txt = msg.content
         print("user_id:",user_id,"txt:",txt) 
-        if not is_allowtxt(user_id,txt):
-            return
+
         txt =  replace_quick_question(txt)# 替换快捷问题
 
         if is_paint(txt) :# 画图
