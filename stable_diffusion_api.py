@@ -21,7 +21,7 @@ api_url = "127.0.0.1:7860"
 # optionally set username, password when --api-auth is set on webui.
 # api.set_auth('username', 'password')
 first_txt = "masterpiece, best quality, ultra-detailed,  "
-end_txt = ", foreground, middle ground, background, perspective, light, color, texture, detail, beauty, wonder,<lora:gachaSplashLORA_gachaSplashFarShot:0.5>"#,<lora:gachaSplashLORA_gachaSplashFarShot:0.7>
+end_txt = ", foreground, middle ground, background, perspective, light, color, texture, detail, beauty, wonder,<lora:gachaSplashLORA_gachaSplashFarShot:0.7>"#,<lora:gachaSplashLORA_gachaSplashFarShot:1>
 ban_txt= ",bad feet,glans,nipples,nsfw,NSFW,"
 def handle_prompt(prompt):
     prompt= first_txt + prompt + end_txt
@@ -33,19 +33,19 @@ async def get_image(prompt:str,seed:int):
                         negative_prompt="""nsfw,worst quality, low quality:1.4), (depth of field, blurry:1.2), (greyscale, monochrome:1.1), extra fingers,fewer fingers, extra legs, extra hands,3D face, cropped, lowres, text, jpeg artifacts, signature, watermark, username, blurry, artist name, trademark, watermark, title, multiple view, Reference sheet, curvy,  plump, fat, muscular female, strabismus,"""+ban_txt,
                         seed=seed,
                         styles=[],
-                        cfg_scale=15, #8
+                        cfg_scale=8,
                         width=512,
                         height=832,
-                        sampler_index='DPM++2M Karras', #"DMP++ SDE Karras"
-                        steps=30,#20
-                        # enable_hr=True,
-                        # hr_scale=1.5,
-                        # hr_upscaler=webuiapi.HiResUpscaler.Latent,
-                        # hr_second_pass_steps=15,
-                        #  hr_resize_x=768,
-                        #  hr_resize_y=1248,
-                        #  denoising_strength=0.5,
-                        #  restore_faces = True,
+                        sampler_index="DMP++ SDE Karras", #'DPM++2M Karras'
+                        steps=20,
+                        enable_hr=True,
+                        hr_scale=1.5,
+                        hr_upscaler=webuiapi.HiResUpscaler.Latent,
+                        hr_second_pass_steps=15,
+                         hr_resize_x=768,
+                         hr_resize_y=1248,
+                         denoising_strength=0.5,
+                         restore_faces = True,
                         )
     # images contains the returned images (PIL images)
 
