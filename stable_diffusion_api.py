@@ -25,7 +25,6 @@ end_txt = ", foreground, middle ground, background, perspective, light, color, t
 ban_txt= ",bad feet,glans,nipples,nsfw,NSFW,"
 def handle_prompt(prompt):
     prompt= first_txt + prompt + end_txt
-    print(prompt)
     return prompt
 
 async def get_image(prompt:str,seed:int):
