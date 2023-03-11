@@ -117,17 +117,6 @@ def handler_voice(message,session):
     message.content = message.recognition
     return hello_world(message,session)
 
-#文本审核的regex
-with open('badword.txt', 'r',encoding='UTF-8') as f:
-    bad_words = [line.strip() for line in f]
-regex = r'\b\S*(' + '|'.join(bad_words) + r')\S*\b'
-def is_allowtxt(user_id,txt: str):
-    if re.search(regex, txt, re.IGNORECASE) :
-        return False
-    return True
-def replace_badword(txt: str):
-    return re.sub(regex, '*', txt, flags=re.IGNORECASE)
-
 @robot.text
 def hello_world(message,session): 
     if 'user_id' not in session:
