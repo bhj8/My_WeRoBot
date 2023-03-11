@@ -94,9 +94,9 @@ def subscribe(message,session):
 """
 
 @robot.voice #我也并不知道语音识别有没有用
-def handler_voice(message):
+def handler_voice(message,session):
     message.content = message.recognition
-    return hello_world(message)
+    return hello_world(message,session)
 
 #文本审核的regex
 with open('badword.txt', 'r',encoding='UTF-8') as f:
