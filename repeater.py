@@ -84,8 +84,6 @@ async def try2paint(msg, dic):
         seed = dic["seed"]
         print(user_id,"   paint   ",txt) 
 
-        txt =  replace_quick_question(txt)# 替换快捷问题
-
         await handle_paint(user_id, txt,seed )
         return
             # reply = await get_response([txt])# 生成回复
@@ -94,7 +92,8 @@ async def try2paint(msg, dic):
     except Exception as e:
         print(e)
             
-async def try2chat(msg, dic):
+async def try2chat(msg, dic): 
+    msg.content =  replace_quick_question(msg.content)# 替换快捷问题
     print(msg.source,"  chat  ",msg.content)
     try:
         session = dic["session"]

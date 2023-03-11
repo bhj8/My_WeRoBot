@@ -20,7 +20,7 @@ def prepare_message(last_messages: list = []):
   old_message = ""
   if len(last_messages) == 0: return []
   messages=[
-    {"role": "system", "content": "你是一个叫小慧个人的助手。你的回复限定在200字"}]
+    {"role": "system", "content": "你是一个叫小慧个人的助手。"}]
   token = 0
   for i in range(len(last_messages)-1):
     old_message = last_messages[i] + "\n"    
@@ -83,7 +83,7 @@ if __name__ == "__main__":
   "https": "http://127.0.0.1:7890",
 }
   # print(asyncio.run(get_translation(["一个美少女,jk,金色头发,带着眼镜"])))
-  print(asyncio.run(get_chat_response(["写一篇散文","我要画","草莓是什么","如何种植草莓"])))
+  print(asyncio.run(get_chat_response(["写一篇散文","我要画","草莓是什么","如何种植草莓","帮我写篇作文，那次玩了真高兴，不少于1000字"])))
   # print(asyncio.run(get_moderation(["审核能力测试"])))
 # 处理生成的文本输出
 #print(message)
