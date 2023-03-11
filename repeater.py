@@ -58,6 +58,7 @@ async def handle_paint(user_id, txt,seed): #这些接口会卡住，我也不知
             if not  is_safe(img_path):                
                 print(user_id,"bad image")
                 client.send_text_message(user_id, "很抱歉，虽然图片已生成。但经过AI自行判断，您关键词生成的图片可能含有不雅内容。频繁检测到将可能会被限制使用")
+                return
             with open(img_path, "rb") as img:
                 r_json =  client.upload_media("image",img)# 上传图片
                 img.close()

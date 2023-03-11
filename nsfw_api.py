@@ -12,9 +12,10 @@ model = predict.load_model('./mobilenet_v2_140_224')
 
 # Predict for all images in a directory
 def is_safe(img_path):
-    print("zhengzai sheng he !!!!!!")
     a = predict.classify(model, img_path)
     t = a['hentai']*2 + a['porn']*2 +a['sexy']
+    
+    print("zhengzai sheng he !!!!!!"+t)
     if t > 0.6:
         return False
     return True
