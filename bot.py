@@ -35,7 +35,7 @@ user_status = {}
 def no_in_paint(user_status,user_id):
     user_status.pop(user_id)
 def execute_after_five_seconds(user_status,user_id):
-    time.sleep(5)
+    time.sleep(20)
     no_in_paint(user_status,user_id)
 def later_no_paint(user_id):
     thread = threading.Thread(target=execute_after_five_seconds,args=(user_status,user_id))
@@ -70,6 +70,7 @@ def subscribe(message,session):
 
 公众号正在开发中，有时会突然停机更新。几分钟就好了。
 更多更强大功能开发中！
+后期会支持上下文对话聊天,图片修复等等功能。
 """
 
 @robot.voice #我也并不知道语音识别有没有用
@@ -77,9 +78,18 @@ def handler_voice(message):
     message.content = message.recognition
     return hello_world(message)
 
+with open('badword.txt', 'r',encoding='UTF-8') as f:
+    bad_words = [line.strip() for line in f]
+regex = r'\b\S*(' + '|'.join(bad_words) + r')\S*\b'
+def is_allowtxt(user_id,txt: str):
+    if re.search(regex, txt, re.IGNORECASE) :
+        return False
+    return True
 
 @robot.text
 def hello_world(message): 
+    if not is_allowtxt(message.source,message.content) :
+        return "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。所有图片已开始人工审核，多次尝试画出法律不允许的内容，会被拉黑"
 
     if message.content.startswith("画图"):
         if message.source not in user_status:
@@ -91,7 +101,7 @@ def hello_world(message):
 全新画风！限时开启超高清模式，画面会更加完美，但是生成时间会更长。
 高清图微信会自动压缩，请点开图片后在左下角点击“查看原图”查看高清原图。"""
         else:
-            return "请求过于频繁，请稍后再试。"
+            return "请求过于频繁，请稍后再试。超高清模式下，20秒内只能画一张。请谅解"
     # asyncio.run(deal_message(message))
     return "目前只支持画图功能。请发送“画图 XXX”"
 
