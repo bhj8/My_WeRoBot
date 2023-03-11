@@ -112,7 +112,9 @@ def hello_world(message,session):
     if not session.get('user_id'):
         session['user_id'] = message.source
     if not session.get('user_id'):
-        session["use_num"] = session["use_num"] +1
+        session["use_num"] = 1
+    else:
+        session["use_num"] += 1
 
     if not is_allowtxt(message.source,message.content) :
         return "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。所有图片都会经过AI自动审核违规内容，多次尝试画出法律不允许的内容，将可能会被限制使用"
