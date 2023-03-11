@@ -66,7 +66,7 @@ def is_valid_seed(seed_str):
         return False
     if not seed_str.isdigit():
         return False
-    return sum(map(int, seed_str)) % 2 == 0
+    return True
 @robot.filter("示例")
 def show_help(message):
     return """
@@ -138,6 +138,7 @@ def hello_world(message,session):
             later_no_paint(message.source)
             if message.content.startswith("种子"):#确定是否为种子模式
                 seed_str = message.content[2:].strip()#获取种子字符串
+                print(seed_str,"      ",type(seed_str))
                 if is_valid_seed(seed_str) and  seed_str in session:
                    message.content =  session[seed_str] 
                    get_response(message,{"seed":int(seed_str)})
