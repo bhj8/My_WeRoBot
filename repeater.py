@@ -36,7 +36,7 @@ def is_paint(txt: str):
         return True
     return False
 
-async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道怎么解决。晚点再说吧
+async def handle_paint(user_id, txt,seed): #这些接口会卡住，我也不知道怎么解决。晚点再说吧
     count = 0
     while count < 3:
         try:
@@ -49,7 +49,7 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
             if not have_paint or have_paint  == False:
                 img_path =os.path.join(os.getcwd(), "test.png")
             else:
-                imageinfo =  await get_image(txt)# 生成图片        
+                imageinfo =  await get_image(txt,seed)# 生成图片        
                 if not imageinfo: # 生成失败
                     client.send_text_message(user_id, "很抱歉，图片生成失败。")
                     return 
@@ -68,16 +68,17 @@ async def handle_paint(user_id, txt): #这些接口会卡住，我也不知道�
             print(e)
         count += 1
 
-async def deal_message(msg):
+async def deal_message(msg,dic):
     try:
         user_id =  msg.source
         txt = msg.content
+        seed = dic["seed"]
         print("user_id:",user_id,"txt:",txt) 
 
         txt =  replace_quick_question(txt)# 替换快捷问题
 
         if is_paint(txt) :# 画图
-            await handle_paint(user_id, txt)
+            await handle_paint(user_id, txt,seed )
             return
         # reply = await get_response([txt])# 生成回复
         # client.send_text_message(user_id, reply)# 发送回复
@@ -90,8 +91,8 @@ async def deal_message(msg):
 async def on_message():    
     try:
         while True:
-            (msg) = queue.get()
-            await deal_message(msg)
+            (msg,dic) = queue.get()
+            await deal_message(msg,dic)
             await asyncio.sleep(2)
     except Exception as e:
         print("\r" + e)
@@ -110,5 +111,5 @@ pool.submit(asyncio.run, on_message())
 pool.submit(asyncio.run, on_message())
 
 
-def get_response(msg) -> None:
-    queue.put((msg))
+def get_response(msg,dic) -> None:
+    queue.put((msg,dic))

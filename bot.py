@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import hashlib
 import os
+import time
 
 # import cryptography
 import werobot
@@ -40,6 +42,18 @@ def execute_after_five_seconds(user_status,user_id):
 def later_no_paint(user_id):
     thread = threading.Thread(target=execute_after_five_seconds,args=(user_status,user_id))
     thread.start()
+# 将字符串和当前时间的毫秒数作为种子
+def generate_seed(string):
+    # 将当前时间的毫秒数转换为字符串，并追加到原始字符串后面
+    string_with_time = string + str(int(round(time.time() * 1000)))
+    
+    # 使用SHA-256哈希函数计算字符串的哈希值
+    hash_object = hashlib.sha256(string_with_time.encode())
+    hash_hex = hash_object.hexdigest()
+    
+    # 将哈希值转换为一个32位的无符号整数作为种子
+    seed = int(hash_hex, 16) % 2**32
+    return seed
 
 @robot.filter("示例")
 def show_help(message):
@@ -51,7 +65,7 @@ def show_help(message):
 画图 户外，森林，岩石，河流，木材，烟雾，阴影，对比，晴朗的天空，星座，银河系，和平，宁静，安静，宁静，遥远，僻静，冒险， 构图,颜色,光,阴影,反射,折射,色调
 
 
-题词技巧，按入下顺序题词：
+题词技巧，按如下顺序题词：
 1.主体：AI会以先人后物，先大后小的方式，选择构图。只写大的，例如山,湖也可以画风景。主体不够填充画面，AI会加入奇怪的东西。。。
 2.人物的穿着打扮等细节和动作：金发，法袍，站姿，微笑，看向镜头等等
 3.环境描写：城堡，童话世界，海洋，森林等等
@@ -60,12 +74,18 @@ def show_help(message):
 题词后台会自动帮您优化，不必要加太多不属于以上类别的词汇。不支持改变长宽比。
     """
 
+@robot.filter("种子")
+def show_help(message):
+    return"""遇到好看的画，请保存好（画风）（种子）。
+未来开通4k8k分辨率后，可以再次细绘该图。
+待功能开发后即可尝试"""
+
 #新用户关注
 @robot.subscribe
 def subscribe(message,session):
     return """我是小慧，目前提供画图功能。请输入：
 画图 XXX
-开始画图。支持语音输入。
+即可开始画图。支持语音输入。
 请勿发送不雅词汇
 
 公众号正在开发中，有时会突然停机更新。几分钟就好了。
@@ -78,6 +98,7 @@ def handler_voice(message):
     message.content = message.recognition
     return hello_world(message)
 
+#文本审核的regex
 with open('badword.txt', 'r',encoding='UTF-8') as f:
     bad_words = [line.strip() for line in f]
 regex = r'\b\S*(' + '|'.join(bad_words) + r')\S*\b'
@@ -87,7 +108,11 @@ def is_allowtxt(user_id,txt: str):
     return True
 
 @robot.text
-def hello_world(message): 
+def hello_world(message,session): 
+    session['user_id'] = message.source
+    if "use_num" not in session:
+        session["use_num"] = session["use_num"] +1
+
     if not is_allowtxt(message.source,message.content) :
         return "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。所有图片都会经过AI自动审核违规内容，多次尝试画出法律不允许的内容，将可能会被限制使用"
 
@@ -95,11 +120,16 @@ def hello_world(message):
         if message.source not in user_status:
             user_status[message.source] =True
             later_no_paint(message.source)
-            get_response(message) 
-            return """请稍等，图片生成大约要20秒。
+            seed = generate_seed(message.source + message.content)
+            get_response(message,{"seed":seed})
+
+            return f"""请稍等，图片生成大约要20秒。
 输入“示例”查看优秀关键词,题词技巧。
+输入“种子”查看种子，查看种子说明。
 全新画风！限时开启超高清模式，画面会更加完美，但是生成时间会更长。
-高清图微信会自动压缩，请点开图片后在左下角点击“查看原图”查看高清原图。"""
+高清图微信会自动压缩，请点开图片后在左下角点击“查看原图”查看高清原图。
+本次作画画风为：真彩动漫1 种子为：{seed} 
+"""
         else:
             return "请求过于频繁，请稍后再试。超高清模式下，20秒内只能画一张。请谅解"
     # asyncio.run(deal_message(message))

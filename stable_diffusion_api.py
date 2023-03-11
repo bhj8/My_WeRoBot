@@ -28,11 +28,11 @@ def handle_prompt(prompt):
     print(prompt)
     return prompt
 
-async def get_image(prompt:str):
+async def get_image(prompt:str,seed:int):
     result1 = None
     result1 = api.txt2img(prompt=handle_prompt(prompt),#"cute squirrel"
                         negative_prompt="""nsfw,worst quality, low quality:1.4), (depth of field, blurry:1.2), (greyscale, monochrome:1.1), extra fingers,fewer fingers, extra legs, extra hands,3D face, cropped, lowres, text, jpeg artifacts, signature, watermark, username, blurry, artist name, trademark, watermark, title, multiple view, Reference sheet, curvy,  plump, fat, muscular female, strabismus,"""+ban_txt,
-                        seed=-1,
+                        seed=seed,
                         styles=[],
                         cfg_scale=8,
                         width=512,
