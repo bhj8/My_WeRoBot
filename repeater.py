@@ -95,7 +95,7 @@ async def try2paint(msg, dic):
         print(e)
             
 async def try2chat(msg, dic):
-    print("chat",msg.content)
+    print(msg.source,"chat",msg.content)
     try:
         session = dic["session"]
         lis = []
@@ -112,7 +112,7 @@ async def try2chat(msg, dic):
             return
         result = replace_badword(result)
         client.send_text_message(msg.source, result)        
-        print("send",result)
+        print(msg.source,"send",result)
         if "two_last_message" in session:
             session["three_last_message"] = session["two_last_message"]
         if "one_last_message" in session:
