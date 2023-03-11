@@ -71,7 +71,8 @@ if __name__ == "__main__":
   "https": "http://127.0.0.1:7890",
 }
   # print(asyncio.run(get_translation(["一个美少女,jk,金色头发,带着眼镜"])))
-  print(asyncio.run(get_response(["一篇春天散文，不少于500字"])))
+  # print(asyncio.run(get_response(["一篇春天散文，不少于500字"])))
+  print(asyncio.run(get_moderation(["审核能力测试"])))
 # 处理生成的文本输出
 #print(message)
 
