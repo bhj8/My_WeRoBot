@@ -54,7 +54,19 @@ def generate_seed(string):
     # 将哈希值转换为一个32位的无符号整数作为种子
     seed = int(hash_hex, 16) % 2**32
     return seed
-
+def is_valid_seed(seed_str):
+    """
+    Check if a string is a valid seed.
+    A valid seed must have the following properties:
+    - Length must be 9.
+    - Only digits are allowed.
+    - The sum of digits must be even.
+    """
+    if len(seed_str) != 9:
+        return False
+    if not seed_str.isdigit():
+        return False
+    return sum(map(int, seed_str)) % 2 == 0
 @robot.filter("示例")
 def show_help(message):
     return """
@@ -125,9 +137,11 @@ def hello_world(message,session):
             user_status[message.source] =True
             later_no_paint(message.source)
             if message.content.startswith("种子"):#确定是否为种子模式
-                seed_str = message.content[2:].strip()#获取种子
-                if seed_str in session:
+                seed_str = message.content[2:].strip()#获取种子字符串
+                if is_valid_seed(seed_str) and  seed_str in session:
                    message.content =  session[seed_str] 
+                   get_response(message,{"seed":int(seed_str)})
+                   return f"请稍等，图片生成大约要20秒。已经开始以种子{seed}绘制"
                 else:
                     return "种子错误，或无法读取。请重新输入。例如：画图 种子 196414898 "
 
