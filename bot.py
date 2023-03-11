@@ -111,7 +111,7 @@ def is_allowtxt(user_id,txt: str):
 def hello_world(message,session): 
     if not session.get('user_id'):
         session['user_id'] = message.source
-    if "use_num" not in session:
+    if not session.get('user_id'):
         session["use_num"] = session["use_num"] +1
 
     if not is_allowtxt(message.source,message.content) :
