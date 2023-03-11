@@ -82,7 +82,7 @@ async def try2paint(msg, dic):
         user_id =  msg.source
         txt = msg.content
         seed = dic["seed"]
-        print("user_id:",user_id,"txt:",txt) 
+        print(user_id,"   paint   ",txt) 
 
         txt =  replace_quick_question(txt)# 替换快捷问题
 
@@ -95,7 +95,7 @@ async def try2paint(msg, dic):
         print(e)
             
 async def try2chat(msg, dic):
-    print(msg.source,"chat",msg.content)
+    print(msg.source,"  chat  ",msg.content)
     try:
         session = dic["session"]
         lis = []
