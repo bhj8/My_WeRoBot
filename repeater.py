@@ -42,7 +42,7 @@ async def handle_paint(user_id, txt,seed): #这些接口会卡住，我也不知
         try:
             if await get_moderation(txt) == True:
                 print(user_id,"bad word")
-                client.send_text_message(user_id, "很抱歉，经过AI判断，您的问题中可能包含不雅语义，我不会做出任何回答。频繁检测到将可能会被限制使用。no zuo no die！！！")
+                client.send_text_message(user_id, "很抱歉，经过AI判断，您的问题中可能包含不雅语义，我不会做出任何回答。出图后，AI会再次审核图片，意图违规使用将会被限制使用。no zuo no die！！！")
                 return
             txt = await get_translation([txt[3:]]) # 翻译
 
@@ -59,7 +59,7 @@ async def handle_paint(user_id, txt,seed): #这些接口会卡住，我也不知
                 p1 = img_path.split('/')[-1]
                 if not  is_safe('./images/'+p1):                
                     print(user_id,"bad image")
-                    client.send_text_message(user_id, "很抱歉，虽然图片已生成。但经过AI自行判断，您关键词生成的图片可能含有不雅内容。频繁检测到将可能会被限制使用")
+                    client.send_text_message(user_id, "很抱歉，虽然图片已生成。但经过AI自行判断，您关键词生成的图片可能含有不雅内容。意图违规使用将会被限制使用")
                     return
             except Exception as e:
                 print(e)
