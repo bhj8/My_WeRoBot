@@ -44,7 +44,7 @@ async def handle_paint(user_id, txt,seed): #这些接口会卡住，我也不知
                 print(user_id,"bad word")
                 client.send_text_message(user_id, "很抱歉，经过AI判断，您的问题中可能包含不雅语义，我不会做出任何回答。出图后，AI会再次审核图片，意图违规使用将会被限制使用。no zuo no die！！！")
                 return
-            txt = await get_translation([txt[3:]]) # 翻译
+            txt = await get_translation([txt]) # 翻译
 
             if not have_paint or have_paint  == False:
                 img_path =os.path.join(os.getcwd(), "test.png")

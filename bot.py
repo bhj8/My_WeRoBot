@@ -76,7 +76,7 @@ def show_help(message):
 
 @robot.filter("种子")
 def show_help(message):
-    return"""遇到好看的画，请保存好（画风）（种子）。
+    return"""遇到好看的画，请保存好（种子）。
 未来开通4k8k分辨率后，可以再次细绘该图。
 种子绘高清图功能还在发开中！！！目前无法使用。但是您可以保存好种子，以便开放后绘制。"""
 
@@ -108,7 +108,7 @@ def is_allowtxt(user_id,txt: str):
     return True
 
 @robot.text
-def hello_world(message,session): 
+def hello_world(message:messages,session): 
     if 'user_id' not in session:
         session['user_id'] = message.source
     if 'use_num' not in session:
@@ -120,10 +120,19 @@ def hello_world(message,session):
     #     return "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。所有图片都会经过AI自动审核违规内容，多次尝试画出法律不允许的内容，将可能会被限制使用"
 
     if message.content.startswith("画图"):
-        if message.source not in user_status:
+        message.content = message.content[2:].strip()#去掉画图两字
+        if message.source not in user_status:#请求频率限制
             user_status[message.source] =True
             later_no_paint(message.source)
+            if message.content.startswith("种子"):#确定是否为种子模式
+                seed_str = message.content[2:].strip()#获取种子
+                if seed_str in session:
+                   message.content =  session[seed_str] 
+                else:
+                    return "种子错误，或无法读取。请重新输入。例如：画图 种子 196414898 "
+
             seed = generate_seed(message.source + message.content)
+            session[str(seed)] = message.content
             get_response(message,{"seed":seed})
 
             return f"""请稍等，图片生成大约要20秒。
