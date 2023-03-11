@@ -43,7 +43,7 @@ async def get_chat_response(last_messages: list = [])->str:
     top_p = 0.2,     
     #n = 1,
     #stream = False,
-    stop =" ",# [ " User:", " Assistant:"],
+    #stop =" ",# [ " User:", " Assistant:"],
     max_tokens = 500,
     messages=prepare_message(last_messages),
     
