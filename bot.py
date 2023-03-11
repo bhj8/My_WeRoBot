@@ -136,18 +136,18 @@ def hello_world(message,session):
         if message.source not in user_status:#请求频率限制
             user_status[message.source] =True
             later_no_paint(message.source)
-            if message.content.startswith("种子"):#确定是否为种子模式
-                seed_str = message.content[2:].strip()#获取种子字符串
-                print(seed_str,"      ",type(seed_str))
-                if is_valid_seed(seed_str) and  seed_str in session:
-                   message.content =  session[seed_str] 
-                   get_response(message,{"seed":int(seed_str)})
-                   return f"请稍等，图片生成大约要20秒。已经开始以种子{seed}绘制"
-                else:
-                    return "种子错误，或无法读取。请重新输入。例如：画图 种子 196414898 "
+            # if message.content.startswith("种子"):#确定是否为种子模式
+            #     seed_str = message.content[2:].strip()#获取种子字符串
+            #     print(seed_str,"      ",type(seed_str))
+            #     if is_valid_seed(seed_str) and  seed_str in session:
+            #        message.content =  session[seed_str] 
+            #        get_response(message,{"seed":int(seed_str)})
+            #        return f"请稍等，图片生成大约要20秒。已经开始以种子{seed_str}绘制"
+            #     else:
+            #         return "种子错误，或无法读取。请重新输入。例如：画图 种子 196414898 "
 
             seed = generate_seed(message.source + message.content)
-            session[str(seed)] = message.content
+            # session[str(seed)] = message.content
             # asyncio.run(deal_message(message,{"seed":seed})) #临时测试用
             get_response(message,{"seed":seed})
 
