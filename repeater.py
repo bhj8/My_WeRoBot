@@ -103,7 +103,7 @@ async def try2chat(msg, dic):
         if await get_moderation(result) :
             client.send_text_message(msg.source, "很抱歉，我不喜欢聊这个话题。让我们换换其它话题吧！")
             return        
-        client.send_text_message(msg.source, get_chat_response(lis))
+        client.send_text_message(msg.source, result)
         if "two_last_message" in session:
             session["three_last_message"] = session["two_last_message"]
         if "one_last_message" in session:
