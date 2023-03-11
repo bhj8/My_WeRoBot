@@ -31,10 +31,6 @@ def replace_quick_question(txt: str):
         return quick_question[int(txt)-1]
     return txt
 
-def is_paint(txt: str):
-    if txt.startswith("画图"):
-        return True
-    return False
 
 async def handle_paint(user_id, txt,seed): #这些接口会卡住，我也不知道怎么解决。晚点再说吧
     count = 0
@@ -83,9 +79,8 @@ async def deal_message(msg,dic):
 
         txt =  replace_quick_question(txt)# 替换快捷问题
 
-        if is_paint(txt) :# 画图
-            await handle_paint(user_id, txt,seed )
-            return
+        await handle_paint(user_id, txt,seed )
+        return
         # reply = await get_response([txt])# 生成回复
         # client.send_text_message(user_id, reply)# 发送回复
         
