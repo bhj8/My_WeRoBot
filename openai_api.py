@@ -20,7 +20,7 @@ def prepare_message(last_messages: list = []):
   old_message = ""
   if len(last_messages) == 0: return []
   messages=[
-    {"role": "system", "content": "你是一个个人的助手。你的回复限定在200字"}]
+    {"role": "system", "content": "你是一个叫小慧个人的助手。你的回复限定在200字"}]
   token = 0
   for i in range(len(last_messages)-1):
     old_message = last_messages[i] + "\n"    
