@@ -78,7 +78,7 @@ def show_help(message):
 def show_help(message):
     return"""遇到好看的画，请保存好（画风）（种子）。
 未来开通4k8k分辨率后，可以再次细绘该图。
-待功能开发后即可尝试"""
+种子绘高清图功能还在发开中！！！目前无法使用。但是您可以保存好种子，以便开放后绘制。"""
 
 #新用户关注
 @robot.subscribe
