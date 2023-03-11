@@ -168,7 +168,7 @@ def hello_world(message,session):
         return "想要画图，请以画图会开头。例如：画图 金发女孩"
 
     #一个success的return，不然会报错
-    return "success"
+    return werobot.replies.SuccessReply()
 
     
 

@@ -99,7 +99,7 @@ async def try2chat(msg, dic):
         if "one_last_message" in session:
             lis.append(session["one_last_message"])
         lis.append(msg.content) 
-        result =  get_chat_response(msg, lis)
+        result =  get_chat_response(lis)
         if get_moderation(result) :
             client.send_text_message(msg.source, "很抱歉，我不喜欢聊这个话题。让我们换换其它话题吧！")
             return        
