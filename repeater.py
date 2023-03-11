@@ -67,8 +67,8 @@ async def handle_paint(user_id, txt,seed): #这些接口会卡住，我也不知
                 r_json =  client.upload_media("image",img)# 上传图片
                 img.close()
                 client.send_image_message(user_id, r_json["media_id"])# 发送图片
-                with open('./media_id.txt', "a") as f:#记录media_id
-                    f.write(time.strftime('%Y-%m-%d', time.time()) +" "+  r_json["media_id"] + '\n')
+                with open('./media_id.txt', "a") as f:
+                    f.write(time.strftime('%Y-%m-%d', time.localtime()) +" "+  r_json["media_id"] + '\n')
                 print(user_id,"send image  ",len(txt),r_json["media_id"]) 
             return
         except Exception as e:
