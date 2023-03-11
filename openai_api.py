@@ -17,6 +17,7 @@ async def get_moderation(imessage: str):#是否有不当内容  True 有不当�
 
 #进来的list的排序从最旧到最新
 def prepare_message(last_messages: list = []):
+  old_message = ""
   if len(last_messages) == 0: return []
   messages=[
     {"role": "system", "content": "你是一个个人的助手。你的回复限定在200字"}]
