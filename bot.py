@@ -133,8 +133,8 @@ def hello_world(message,session):
 
             seed = generate_seed(message.source + message.content)
             session[str(seed)] = message.content
-            asyncio.run(deal_message(message,{"seed":seed}))
-            # get_response(message,{"seed":seed})
+            # asyncio.run(deal_message(message,{"seed":seed})) #临时测试用
+            get_response(message,{"seed":seed})
 
             return f"""请稍等，图片生成大约要20秒。
 输入“示例”查看优秀关键词,题词技巧。
