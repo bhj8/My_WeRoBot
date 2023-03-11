@@ -26,11 +26,11 @@ def set_config(h_paint=False):
     global have_paint
     have_paint = h_paint
 
-# with open('badword.txt', 'r',encoding='UTF-8') as f:
-#     bad_words = [line.strip() for line in f]
-# regex = r'\b\S*(' + '|'.join(bad_words) + r')\S*\b'
-# def replace_badword(txt: str):
-#     return re.sub(regex, '*', txt, flags=re.IGNORECASE)
+with open('badword.txt', 'r',encoding='UTF-8') as f:
+    bad_words = [line.strip() for line in f]
+regex = r'\b\S*(' + '|'.join(bad_words) + r')\S*\b'
+def replace_badword(txt: str):
+    return re.sub(regex, '*', txt, flags=re.IGNORECASE)
 
 def replace_quick_question(txt: str):
     if txt in ["1", "2", "3", "4", "5", "6", "7"]:
@@ -107,7 +107,8 @@ async def try2chat(msg, dic):
         if await get_moderation(result) :
             client.send_text_message(msg.source, "很抱歉，我不喜欢聊这个话题。让我们换换其它话题吧！")
             return
-        client.send_text_message(msg.source, result)        
+        client.send_text_message(msg.source, result)    
+        result =  replace_badword(result)    
         print(msg.source,"send","  chat message  ",len(result))
         if "two_last_message" in session:
             session["three_last_message"] = session["two_last_message"]
