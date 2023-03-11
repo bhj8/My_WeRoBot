@@ -108,7 +108,7 @@ def is_allowtxt(user_id,txt: str):
     return True
 
 @robot.text
-def hello_world(message:messages,session): 
+def hello_world(message,session): 
     if 'user_id' not in session:
         session['user_id'] = message.source
     if 'use_num' not in session:
@@ -133,7 +133,8 @@ def hello_world(message:messages,session):
 
             seed = generate_seed(message.source + message.content)
             session[str(seed)] = message.content
-            get_response(message,{"seed":seed})
+            asyncio.run(deal_message(message,{"seed":seed}))
+            # get_response(message,{"seed":seed})
 
             return f"""请稍等，图片生成大约要20秒。
 输入“示例”查看优秀关键词,题词技巧。
