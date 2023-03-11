@@ -172,7 +172,7 @@ def hello_world(message,session):
 """
         else:
             return "请求过于频繁，请稍后再试。超高清模式下，20秒内只能画一张。请谅解"
-    messages.content = replace_badword(message.content)
+    # messages.content = replace_badword(message.content)
     get_response(message,{"session":session,"mode":"chat"})
     
     if "图" in message.content or "画" in message.content :
