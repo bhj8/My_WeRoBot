@@ -40,7 +40,6 @@ def replace_quick_question(txt: str):
 
 async def handle_paint(user_id, txt,seed): #这些接口会卡住，我也不知道怎么解决。晚点再说吧
     count = 0
-    print("0.5")
     while count < 3:
         try:
             if await get_moderation(txt) == True:
@@ -48,7 +47,6 @@ async def handle_paint(user_id, txt,seed): #这些接口会卡住，我也不知
                 client.send_text_message(user_id, "很抱歉，经过AI判断，您的问题中可能包含不雅语义，我不会做出任何回答。出图后，AI会再次审核图片，意图违规使用将会被限制使用。no zuo no die！！！")
                 return
             txt = await get_translation([txt[:]]) # 翻译
-            print("1",txt)
             if not have_paint or have_paint  == False:
                 img_path =os.path.join(os.getcwd(), "test.png")
             else:
@@ -57,7 +55,7 @@ async def handle_paint(user_id, txt,seed): #这些接口会卡住，我也不知
                     client.send_text_message(user_id, "很抱歉，图片生成失败。")
                     return 
                 img_path =imageinfo[0]
-            print(img_path)
+            #print(img_path)
             try :
                 p1 = img_path.split('/')[-1]
                 if not  is_safe('./images/'+p1):                
@@ -70,7 +68,7 @@ async def handle_paint(user_id, txt,seed): #这些接口会卡住，我也不知
                 r_json =  client.upload_media("image",img)# 上传图片
                 img.close()
                 client.send_image_message(user_id, r_json["media_id"])# 发送图片
-                print("send image",txt, user_id, r_json["media_id"]) 
+                print(user_id,"send image  ",len(txt),r_json["media_id"]) 
             return
         except Exception as e:
             print(e)
@@ -111,7 +109,7 @@ async def try2chat(msg, dic):
             return
         result = replace_badword(result)
         client.send_text_message(msg.source, result)        
-        print(msg.source,"send",result)
+        print(msg.source,"send","  chat message  ",len(result))
         if "two_last_message" in session:
             session["three_last_message"] = session["two_last_message"]
         if "one_last_message" in session:
