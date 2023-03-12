@@ -57,10 +57,10 @@ async def handle_paint(user_id, txt,seed): #这些接口会卡住，我也不知
             #print(img_path)
             try :
                 p1 = img_path.split('/')[-1]
-                if not  is_safe('./images/'+p1):                
-                    print(user_id,"bad image")
-                    client.send_text_message(user_id, "很抱歉，虽然图片已生成。但经过AI自行判断，您关键词生成的图片可能含有不雅内容。意图违规使用将会被限制使用")
-                    return
+                # if not  is_safe('./images/'+p1):                
+                #     print(user_id,"bad image")
+                #     client.send_text_message(user_id, "很抱歉，虽然图片已生成。但经过AI自行判断，您关键词生成的图片可能含有不雅内容。意图违规使用将会被限制使用")
+                #     return
             except Exception as e:
                 print(e)
             with open(img_path, "rb") as img:
