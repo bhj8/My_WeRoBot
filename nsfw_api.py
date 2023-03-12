@@ -1,6 +1,6 @@
-# from nsfw_detector import predict
+from nsfw_detector import predict
 
-# model = predict.load_model('./mobilenet_v2_140_224')
+model = predict.load_model('./mobilenet_v2_140_224')
 
 # Predict single image
 # print(predict.classify(model, 'N1.png'))
@@ -11,15 +11,15 @@
 # {'2.jpg': {'sexy': 4.3454795e-05, 'neutral': 0.00026579312, 'porn': 0.0007733498, 'hentai': 0.14751942, 'drawings': 0.8513979}, '6.jpg': {'drawings': 0.004214506, 'hentai': 0.013342537, 'neutral': 0.01834045, 'porn': 0.4431829, 'sexy': 0.5209196}}
 
 # Predict for all images in a directory
-# def is_safe(img_path):
-#     a = predict.classify(model, img_path)
-#     a = a[img_path]
-#     t = a['hentai']*2 + a['porn']*2 +a['sexy']
+def is_safe(img_path):
+    a = predict.classify(model, img_path)
+    a = a[img_path]
+    t = a['hentai']*2 + a['porn']*2 +a['sexy']
     
-#     print("zhengzai sheng he !!!!!!"+str(t))
-#     if t > 0.6:
-#         return False
-#     return True
+    print("zhengzai sheng he !!!!!!"+str(t))
+    if t > 0.6:
+        return False
+    return True
 
 
 
