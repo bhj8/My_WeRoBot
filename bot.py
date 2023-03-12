@@ -41,7 +41,7 @@ user_status = {}
 def no_in_paint(user_status,user_id):
     user_status.pop(user_id)
 def execute_after_five_seconds(user_status,user_id):
-    time.sleep(20)
+    time.sleep(5)
     no_in_paint(user_status,user_id)
 def later_no_paint(user_id):
     thread = threading.Thread(target=execute_after_five_seconds,args=(user_status,user_id))
