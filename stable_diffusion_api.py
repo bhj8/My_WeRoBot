@@ -38,14 +38,14 @@ async def get_image(prompt:str,seed:int):
                         height=832,
                         sampler_index="DMP++ SDE Karras", #'DPM++2M Karras'
                         steps=20,
-                        enable_hr=True,
-                        hr_scale=1.5,
-                        hr_upscaler=webuiapi.HiResUpscaler.Latent,
-                        hr_second_pass_steps=15,
-                         hr_resize_x=768,
-                         hr_resize_y=1248,
-                         denoising_strength=0.5,
-                         restore_faces = True,
+                        # enable_hr=True,
+                        # hr_scale=1.5,
+                        # hr_upscaler=webuiapi.HiResUpscaler.Latent,
+                        # hr_second_pass_steps=15,
+                        #  hr_resize_x=768,
+                        #  hr_resize_y=1248,
+                        #  denoising_strength=0.5,
+                        #  restore_faces = True,
                         )
     # images contains the returned images (PIL images)
 
