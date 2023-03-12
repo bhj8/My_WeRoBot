@@ -9,8 +9,8 @@ import webuiapi
 #api = webuiapi.WebUIApi()
 
 # create API client with custom host, port
-api = webuiapi.WebUIApi(host='127.0.0.1', port=7860)
-api_url = "127.0.0.1:7860"
+api = webuiapi.WebUIApi(host='129.213.20.151', port=7860)
+# api_url = "129.213.20.151:7860"
 
 # create API client with custom host, port and https
 # api = webuiapi.WebUIApi(host='https://5c2a0775-930e-4f2c.gradio.live', port=443, use_https=True)
@@ -19,7 +19,7 @@ api_url = "127.0.0.1:7860"
 #api = webuiapi.WebUIApi(sampler='Euler a', steps=20)
 
 # optionally set username, password when --api-auth is set on webui.
-# api.set_auth('username', 'password')
+api.set_auth('bao', 'stable_bao_123')
 first_txt = "masterpiece, best quality, ultra-detailed,  "
 end_txt = ", foreground, middle ground, background, perspective, light, color, texture, detail, beauty, wonder,<lora:gachaSplashLORA_gachaSplashFarShot:0.7>"#,<lora:gachaSplashLORA_gachaSplashFarShot:1>
 ban_txt= ",bad feet,glans,nipples,nsfw,NSFW,"
