@@ -11,11 +11,15 @@ from dotenv import load_dotenv
 from repeater import *
 
 load_dotenv()
-AppID = os.getenv("MY_WEROBOT_APPID")
-AppSecret = os.getenv("MY_WEROBOT_APPSECRET")
-token=os.getenv("MY_WEROBOT_TOKEN")
-have_paint =os.getenv("MY_IS_PAINT")
-aes_key=os.getenv('MY_ENCODING_AES_KEY')
+try:
+    AppID = os.getenv("MY_WEROBOT_APPID")
+    AppSecret = os.getenv("MY_WEROBOT_APPSECRET")
+    token=os.getenv("MY_WEROBOT_TOKEN")
+    have_paint =os.getenv("MY_IS_PAINT")
+    aes_key=os.getenv('MY_ENCODING_AES_KEY')
+except:
+    print("请在根目录下创建.env文件，并在.env文件中填写相关信息.别tm在忘记了，受不了了")
+    exit()
 
 
 robot = werobot.WeRoBot( token=token)
