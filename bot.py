@@ -40,7 +40,7 @@ set_config(have_paint)
 with open('badword.txt', 'r',encoding='UTF-8') as f:
     bad_words = [line.strip() for line in f]
 regex = r'\b\S*(' + '|'.join(bad_words) + r')\b\S*'  
-def is_allowtxt(text):
+def is_allowtxt(text,name):
     if re.search(regex, text, re.IGNORECASE):
         return False
     else:
