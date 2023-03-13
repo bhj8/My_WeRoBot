@@ -21,7 +21,7 @@ api_url = "129.213.20.151:7860"
 # optionally set username, password when --api-auth is set on webui.
 # api.set_auth('bao', 'stale_bao_123')#bao:stale_bao_123
 first_txt = "masterpiece, best quality, ultra-detailed,  "
-end_txt = ", foreground, middle ground, background, perspective, light, color, texture, detail, beauty, wonder,<lora:gachaSplashLORA_gachaSplashFarShot:0.7>"#,<lora:gachaSplashLORA_gachaSplashFarShot:1>
+end_txt = ", foreground, middle ground, background, perspective, light, color, texture, detail, beauty, wonder,<lora:gachaSplashLORA_gachaSplashFarShot:0.4>"#,<lora:gachaSplashLORA_gachaSplashFarShot:1>
 ban_txt= ",bad feet,glans,nipples,nsfw,NSFW,"
 def handle_prompt(prompt):
     prompt= first_txt + prompt + end_txt
