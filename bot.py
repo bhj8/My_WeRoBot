@@ -103,10 +103,25 @@ def show_guanliyuan(message):
     return werobot.replies.SuccessReply()
 
 @robot.filter("积分")
-def show_score(message):
+def show_score(message, session):
+    if sql.get(message.source) == {}:
+        set_newuser_sql(message, session)
     return f"""你的永久积分为{sql.get(message.source)['score']} 永久积分通过充值和邀请好友获得。
 免费积分为:{ sql.get(message.source)['freescore']}) 免费积分通过获得领取。优先使用免费积分。
 你已经邀请了{sql.get(message.source)['all_invite']}个用户"""#(每日6点重置为{price.daily_user}
+
+@robot.filter("帮助")
+def show_help(message):
+    return  mytxt.help_txt
+
+@robot.filter("邀请码")
+def show_invite(message, session):
+    if sql.get(message.source) == {}:
+        set_newuser_sql(message, session)
+    client.send_text_message(message.source,mytxt.invite_txt)
+    return f"{sql.get(message.source)['friendkey']}"
+
+
 #新用户关注
 @robot.subscribe
 def subscribe(message,session):
@@ -165,13 +180,15 @@ def hello_world(message,session):
     
     if "图" in message.content or "画" in message.content :
         return "想要画图，请以画图会开头。例如：画图 金发女孩"
+    if "邀" in message.content or "码" in message.content  or "邀请" in message.content:
+        return show_invite(message, session)
 
     #一个success的return，不然会报错
     return werobot.replies.SuccessReply()
 
 @robot.handler#意外处理函数
 def echo(message):
-    return "暂时没这个功能，别试了。后期会支持上下文对话聊天,图片修复等等功能。"
+    return mytxt.unexpected_txt
 
 
 
