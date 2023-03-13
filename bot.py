@@ -39,12 +39,11 @@ set_config(have_paint)
 #     return message.content
 with open('badword.txt', 'r',encoding='UTF-8') as f:
     bad_words = [line.strip() for line in f]
-regex = r'\b\S*(' + '|'.join(bad_words) + r')\b\S*'  
-def is_allowtxt(text):
-    if re.search(regex, text, re.IGNORECASE):
+regex = r'\b\S*(' + '|'.join(bad_words) + r')\S*\b'
+def is_allowtxt(txt: str):
+    if re.search(regex, txt, re.IGNORECASE) :
         return False
-    else:
-        return True
+    return True
 
 user_status = {}
 def no_in_paint(user_status,user_id):
