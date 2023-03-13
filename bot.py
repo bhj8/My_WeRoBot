@@ -176,6 +176,7 @@ def hello_world(message,session):
     if message.source not in user_chats:
         user_chats[message.source] = chathistory()
     user_chats[message.source].add(message.content)
+    print(message.content,"in_reply"")
     get_response(message,{"chathistory":user_chats[message.source],"mode":"chat"})
     
     if "图" in message.content or "画" in message.content :
