@@ -64,7 +64,7 @@ def later_no_paint(user_id):
 user_chats = {}
 #设置新用户的sql
 def set_newuser_sql(message, session):
-    fkey = utils.get_friendkey()
+    fkey = utils.get_friendkey(message.source)
     session['friendkey'] = fkey #先绑定一个邀请码
     if not 'score' in session:
         session['score'] = price.new_user#就这里预设了新用户的积分
@@ -99,7 +99,9 @@ def show_zhongzi(message):
 @robot.filter("管理员")
 def show_guanliyuan(message):
     with open("admin.txt","w") as f:
-        f.write(client._token)
+        if client._token :
+            f.write(client._token)
+        else:print("没有access_token！！！")
     return werobot.replies.SuccessReply()
 
 @robot.filter("积分")
@@ -195,6 +197,6 @@ def echo(message):
 
 
 robot.config['HOST'] = '0.0.0.0'
-robot.config['PORT'] = 80
+robot.config['PORT'] = 8000
 robot.run()
 
