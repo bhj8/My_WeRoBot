@@ -40,7 +40,7 @@ set_config(have_paint)
 with open('badword.txt', 'r',encoding='UTF-8') as f:
     bad_words = [line.strip() for line in f]
 regex = r'\b\S*(' + '|'.join(bad_words) + r')\b\S*'  
-def is_allowtxt(text,name):
+def is_allowtxt(text):
     if re.search(regex, text, re.IGNORECASE):
         return False
     else:
@@ -145,7 +145,7 @@ def hello_world(message,session):
     else:
         session['use_num'] += 1
 
-    if not is_allowtxt(message.source,message.content) :
+    if not is_allowtxt(message.content) :
         return "很抱歉，经过AI判断，您的问题中可能包含不雅语义，我不会做出任何回答。出图后，AI会再次审核图片，意图违规使用将会被限制使用。no zuo no die！！！"
 
     if message.content.startswith("画图"):
