@@ -37,6 +37,15 @@ set_config(have_paint)
 # @robot.handler
 # def hello(message):
 #     return message.content
+with open('badword.txt', 'r',encoding='UTF-8') as f:
+    bad_words = [line.strip() for line in f]
+regex = r'\b\S*(' + '|'.join(bad_words) + r')\b\S*'  
+def is_allowtxt(text):
+    if re.search(regex, text, re.IGNORECASE):
+        return False
+    else:
+        return True
+
 user_status = {}
 def no_in_paint(user_status,user_id):
     user_status.pop(user_id)
@@ -136,8 +145,8 @@ def hello_world(message,session):
     else:
         session['use_num'] += 1
 
-    # if not is_allowtxt(message.source,message.content) :
-    #     return "很抱歉，您的问题中可能包含不雅词汇，我不会做出任何回答。所有图片都会经过AI自动审核违规内容，多次尝试画出法律不允许的内容，将可能会被限制使用"
+    if not is_allowtxt(message.source,message.content) :
+        return "很抱歉，经过AI判断，您的问题中可能包含不雅语义，我不会做出任何回答。出图后，AI会再次审核图片，意图违规使用将会被限制使用。no zuo no die！！！"
 
     if message.content.startswith("画图"):
         message.content = message.content[2:].strip()#去掉画图两字

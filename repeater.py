@@ -28,7 +28,7 @@ def set_config(h_paint=False):
 
 with open('badword.txt', 'r',encoding='UTF-8') as f:
     bad_words = [line.strip() for line in f]
-# regex = r'\b(' + '|'.join(bad_words) + r')\b'  没什么用的正则
+# regex = r'\b\S*(' + '|'.join(bad_words) + r')\b\S*'  
 def replace_badword(text):
     return re.sub("|".join(bad_words), "***", text)
 def replace_quick_question(txt: str):
