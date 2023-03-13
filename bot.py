@@ -166,8 +166,8 @@ def hello_world(message,session):
             later_no_paint(message.source)
             seed = utils.generate_seed(message.source + message.content)
             # session[str(seed)] = message.content
-            # asyncio.run(deal_message(message,{"seed":seed})) #临时测试用
-            get_response(message,{"seed":seed,"mode":"paint","session":session})
+            asyncio.run(deal_message(message,{"seed":seed,"mode":"paint","session":session}))#临时测试用
+            # get_response(message,{"seed":seed,"mode":"paint","session":session})
 
             return mytxt.start_point_txt
         else:
@@ -176,8 +176,9 @@ def hello_world(message,session):
     if message.source not in user_chats:
         user_chats[message.source] = chathistory()
     user_chats[message.source].add(message.content)
-    print(message.content,"in_reply"")
-    get_response(message,{"chathistory":user_chats[message.source],"mode":"chat"})
+    print(message.content,"in_reply")
+    asyncio.run(deal_message(message,{"chathistory":user_chats[message.source],"mode":"chat"}))#临时测试用
+    # get_response(message,{"chathistory":user_chats[message.source],"mode":"chat"})
     
     if "图" in message.content or "画" in message.content :
         return "想要画图，请以画图会开头。例如：画图 金发女孩"
@@ -194,6 +195,6 @@ def echo(message):
 
 
 robot.config['HOST'] = '0.0.0.0'
-robot.config['PORT'] = 80
+robot.config['PORT'] = 8000
 robot.run()
 

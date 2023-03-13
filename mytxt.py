@@ -77,3 +77,9 @@ class mytxt	 :
     unexpected_txt = """暂时小慧还理解不了您的表情和图片哦，您可以输入“帮助”查看帮助。
 小慧以后会读懂表情和图片的，敬请期待！
 后期还会支持照片修复、照片画图等功能哦！"""
+
+
+    #画图 先文本
+    first_txt = "masterpiece, best quality, ultra-detailed,  "
+    #画图 后文本
+    end_txt = ", foreground, middle ground, background, perspective, light, color, texture, detail, beauty, wonder,<lora:gachaSplashLORA_gachaSplashFarShot:0.6>"

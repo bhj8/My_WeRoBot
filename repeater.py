@@ -8,7 +8,7 @@ from queue import Queue
 from nsfw_api import *
 from openai_api import *
 from price import price
-from stable_diffusion_api import *
+from stable_diffusion_api import SDapi
 from Utils import utils
 
 queue = Queue()
@@ -23,6 +23,9 @@ def set_config(h_paint=False):
 def set_sql(by_sql):
     global sql
     sql = by_sql
+
+#临时创建一个sdapi实例
+sdapi = SDapi()
 
 #只能传int啊，千万别传字符串
 def sql_score_change(id,**kwargs):
@@ -59,7 +62,7 @@ async def handle_paint(user_id, txt,seed)->bool:
             if not have_paint or have_paint  == False:#测试环境拿测试图片
                 img_path =os.path.join(os.getcwd(), "test.png")
             else:
-                imageinfo =  await get_image(txt,seed)# 生成图片        
+                imageinfo =  await sdapi.get_image(txt,seed)# 生成图片        
                 if not imageinfo: # 生成失败
                     client.send_text_message(user_id, "很抱歉，图片生成失败。")
                     return False
