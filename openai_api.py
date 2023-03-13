@@ -49,7 +49,7 @@ async def get_chat_response(last_messages: list = [])->str:
     
   )
   # Return the response
-  return completions.choices[0].message.content.strip()
+  return [completions.choices[0].message.content.strip(),completions.usage.total_tokens]
 
 
       # messages=[
