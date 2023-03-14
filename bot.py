@@ -80,25 +80,26 @@ def sql_get(id):
         
 
 #设置新用户的sql
-def set_newuser_sql(message, session):
+def set_newuser_sql(message):
+    dic = sql_get(message.source)
     fkey = utils.get_friendkey(message.source)
-    session['friendkey'] = fkey #先绑定一个邀请码
-    if not 'score' in session:
-        session['score'] = price.new_user#就这里预设了新用户的积分
-    if not 'freescore' in session:
-        session['freescore'] = 0
-    if not 'inrmb' in session:
-        session['inrmb'] = 0
-    if not 'chats' in session:
-        session['chats'] = 0
-    if not 'paints' in session:
-        session['paints'] = 0
-    if not 'all_invite' in session:
-        session['all_invite'] = 0
+    dic['friendkey'] = fkey #先绑定一个邀请码
+    if not 'score' in dic:
+        dic['score'] = price.new_user#就这里预设了新用户的积分
+    if not 'freescore' in dic:
+        dic['freescore'] = 0
+    if not 'inrmb' in dic:
+        dic['inrmb'] = 0
+    if not 'chats' in dic:
+        dic['chats'] = 0
+    if not 'paints' in dic:
+        dic['paints'] = 0
+    if not 'all_invite' in dic:
+        dic['all_invite'] = 0
     sql_update(fkey,{"user_id":message.source})
     if  "count" not in  sql_get(fkey):
         sql_update(fkey,{"count":0})
-    print(session)
+    print(dic)
     print(sql.get(message.source))
 #设置邀请码的sql
 def set_invite_sql(user_id):
@@ -124,9 +125,8 @@ def show_guanliyuan(message):
     return werobot.replies.SuccessReply()
 
 @robot.filter("积分")
-def show_score(message, session):
-    set_newuser_sql(message, session)
-    print(sql_get(message.source))
+def show_score(message):
+    set_newuser_sql(message)
     return f"""你的永久积分为{sql_get(message.source)['score']} 永久积分通过充值和邀请好友获得。
 免费积分为:{ sql_get(message.source)['freescore']}) 免费积分通过获得领取。优先使用免费积分。
 你已经邀请了{sql_get(message.source)['all_invite']}个用户"""#(每日6点重置为{price.daily_user}
@@ -139,16 +139,16 @@ def show_help(message):
     return  mytxt.help_txt
 
 @robot.filter("邀请码")
-def show_invite(message, session):
-    set_newuser_sql(message, session)
+def show_invite(message):
+    set_newuser_sql(message)
     client.send_text_message(message.source,mytxt.invite_txt)
     return f"{sql_get(message.source)['friendkey']}"
 
 
 #新用户关注
 @robot.subscribe
-def subscribe(message,session):
-    set_newuser_sql(message, session)
+def subscribe(message):
+    set_newuser_sql(message)
     return mytxt.newusertxt
 
 
@@ -170,8 +170,8 @@ def hello_world(message,session):
         return "邀请码不存在，确认后重新输入。一个正常的邀请码为  id_a665a459  。你只需要输入邀请码，不用任何多余的字符"
 
     #看看积分还够不够
-    if session == {}:
-        set_newuser_sql(message, session)
+    if sql_get(message.source) == {}:
+        set_newuser_sql(message)
     
     if sql_get(message.source)["score"] + sql_get(message.source)["freescore"] < 0:
         client.send_text_message(message.source,sql_get(message.source)["friendkey"])
@@ -189,7 +189,7 @@ def hello_world(message,session):
             later_no_paint(message.source)
             seed = utils.generate_seed(message.source + message.content)
             # session[str(seed)] = message.content
-            asyncio.run(deal_message(message,{"seed":seed,"mode":"paint","session":session}))#临时测试用
+            asyncio.run(deal_message(message,{"seed":seed,"mode":"paint"}))#临时测试用
             # get_response(message,{"seed":seed,"mode":"paint","session":session})
 
             return mytxt.start_point_txt
@@ -206,7 +206,7 @@ def hello_world(message,session):
     if "图" in message.content or "画" in message.content :
         return "想要画图，请以画图会开头。例如：画图 金发女孩"
     if "邀" in message.content or "码" in message.content  or "邀请" in message.content:
-        return show_invite(message, session)
+        return show_invite(message)
 
     #一个success的return，不然会报错
     return werobot.replies.SuccessReply()
