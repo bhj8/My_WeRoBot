@@ -92,6 +92,7 @@ def set_newuser_sql(message, session):
     sql_update(fkey,{"user_id":message.source})
     if  "count" not in  sql.get(fkey):
         sql_update(fkey,{"count":0})
+    print(session)
 #设置邀请码的sql
 def set_invite_sql(user_id):
     sql_update(user_id,{"all_invite":sql.get(user_id)["all_invite"]+1})
