@@ -62,6 +62,17 @@ def later_no_paint(user_id):
 
 #储存聊天记录到内存
 user_chats = {}
+
+#封装对sql的操作
+def sql_update(id,dic):
+    a = sql.get(id)
+    a.update(dic)
+    sql.set(id,a)
+def sql_del(id,dic):
+    a = sql.get(id)
+    for key in dic :
+        a.pop(key,None)    
+    sql.set(id,a)
 #设置新用户的sql
 def set_newuser_sql(message, session):
     fkey = utils.get_friendkey(message.source)
@@ -78,13 +89,13 @@ def set_newuser_sql(message, session):
         session['paints'] = 0
     if not 'all_invite' in session:
         session['all_invite'] = 0
-    sql.set(fkey,{"user_id":message.source})
+    sql_update(fkey,{"user_id":message.source})
     if  "count" not in  sql.get(fkey):
-        sql.set(fkey,{"count":0})
+        sql_update(fkey,{"count":0})
 #设置邀请码的sql
 def set_invite_sql(user_id):
-    sql.set(user_id,{"all_invite":sql.get(user_id)["all_invite"]+1})
-    sql.set(user_id,{"score":sql.get(user_id)["score"]+price.invite_user})
+    sql_update(user_id,{"all_invite":sql.get(user_id)["all_invite"]+1})
+    sql_update(user_id,{"score":sql.get(user_id)["score"]+price.invite_user})
     pass
 
 
@@ -106,10 +117,6 @@ def show_guanliyuan(message):
 
 @robot.filter("积分")
 def show_score(message, session):
-    print(message.source)
-    print("session",session)
-    print("sql",sql.get(message.source), type(sql.get(message.source)))
-
     set_newuser_sql(message, session)
     return f"""你的永久积分为{sql.get(message.source)['score']} 永久积分通过充值和邀请好友获得。
 免费积分为:{ sql.get(message.source)['freescore']}) 免费积分通过获得领取。优先使用免费积分。

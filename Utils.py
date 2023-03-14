@@ -54,7 +54,7 @@ class utils :
         h = hashlib.sha256(string.encode()).hexdigest()
         # 取哈希值前 8 位作为邀请码
         invite_code = h[:8]
-        return "id" +invite_code
+        return "id_" +invite_code
     # 检查邀请码是否合法
     def is_valid_invite_code(invite_code):
         return re.match(utils.invite_code_pattern, invite_code) is not None
