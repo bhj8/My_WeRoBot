@@ -200,7 +200,7 @@ def hello_world(message):
     # messages.content = replace_badword(message.content)
     if message.source not in user_chats:
         user_chats[message.source] = chathistory()
-    user_chats[message.source].history.add(message.content)
+    user_chats[message.source].add_message(message.content)
     print(message.content,"in_reply")
     asyncio.run(deal_message(message,{"chathistory":user_chats[message.source],"mode":"chat"}))#临时测试用
     # get_response(message,{"chathistory":user_chats[message.source],"mode":"chat"})
