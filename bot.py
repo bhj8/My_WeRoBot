@@ -173,6 +173,8 @@ def hello_world(message):
         if  utils.is_valid_invite_code(message.content.strip()) :
             if sql_get(message.source)['already_invited'] >= 1:
                 return "你已经输入过邀请码了，不要重复输入。每个人只能被邀请一次"
+            if sql_get(message.source)['friendkey'] == message.content.strip():
+                return "你不能输入自己的邀请码。你总不能邀请自己吧？？？"
 
             #下面去找邀请码对应的用户
             key_dic = sql_get(message.content.strip())
