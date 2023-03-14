@@ -12,6 +12,8 @@ from stable_diffusion_api import SDapi
 from Utils import utils
 
 queue = Queue()
+#临时创建一个sdapi实例
+sdapi = SDapi(host="129.213.20.151")
 
 def set_client(c):
     global client
@@ -37,11 +39,10 @@ def sql_get(id):
     a = sql.get(id)
         # raise ValueError(f"在get sql数据库时发现了异常，没有get到{id}值")
     return a
-#临时创建一个sdapi实例
-sdapi = SDapi()
+
 
 #只能传int啊，千万别传字符串
-def sql_score_change(id,**kwargs):
+def sql_score_change(id,kwargs:dict):
     dic =  sql_get(id)
     if dic=={}:
         raise ValueError(f"在score_change sql数据库时发现了异常，没有get到{id}值")
@@ -115,8 +116,9 @@ async def try2paint(msg, dic):
         seed = dic["seed"]
         print(user_id,"   paint   ",txt) 
 
-        await handle_paint(user_id, txt,seed )        
-        sql_score_change(user_id,{"score_change":-price.high_pic})#高清图扣费
+        ok =  await handle_paint(user_id, txt,seed ) 
+        if ok:
+            sql_score_change(user_id,{"score_change":-price.high_pic})#高清图扣费
         return
             # reply = await get_response([txt])# 生成回复
             # client.send_text_message(user_id, reply)# 发送回复
