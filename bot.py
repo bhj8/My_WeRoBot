@@ -106,8 +106,7 @@ def show_guanliyuan(message):
 
 @robot.filter("积分")
 def show_score(message, session):
-    if sql.get(message.source) == {}:
-        set_newuser_sql(message, session)
+    set_newuser_sql(message, session)
     return f"""你的永久积分为{sql.get(message.source)['score']} 永久积分通过充值和邀请好友获得。
 免费积分为:{ sql.get(message.source)['freescore']}) 免费积分通过获得领取。优先使用免费积分。
 你已经邀请了{sql.get(message.source)['all_invite']}个用户"""#(每日6点重置为{price.daily_user}
@@ -118,8 +117,7 @@ def show_help(message):
 
 @robot.filter("邀请码")
 def show_invite(message, session):
-    if sql.get(message.source) == {}:
-        set_newuser_sql(message, session)
+    set_newuser_sql(message, session)
     client.send_text_message(message.source,mytxt.invite_txt)
     return f"{sql.get(message.source)['friendkey']}"
 
@@ -149,7 +147,7 @@ def hello_world(message,session):
         return "邀请码不存在，确认后重新输入。一个正常的邀请码为  id_a665a459  。你只需要输入邀请码，不用任何多余的字符"
 
     #看看积分还够不够
-    if message.source not in sql:
+    if session == {}:
         set_newuser_sql(message, session)
     
     if sql.get(message.source)["score"] + sql.get(message.source)["freescore"] < 0:
