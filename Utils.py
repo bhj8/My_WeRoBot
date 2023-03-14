@@ -18,6 +18,7 @@ class utils :
             utils.bad_words_all = [line.strip() for line in f]
     
     def is_allow_paint_txt(txt: str):#判断是否允许出图
+        print(utils.regex_paint)
         if re.search(utils.regex_paint, txt, re.IGNORECASE) :
             return False
         return True

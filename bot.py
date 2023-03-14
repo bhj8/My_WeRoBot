@@ -99,10 +99,8 @@ def set_newuser_sql(message):
     sql_update(message.source,dic)
     sql_update(fkey,{"user_id":message.source})
     if  "count" not in  sql_get(fkey):
-        sql_update(fkey,{"count":0})
-    
-    print(dic)
-    print(sql.get(message.source))
+        sql_update(fkey,{"count":0})    
+    print(message.source,"new user",dic)
 #设置邀请码的sql
 def set_invite_sql(user_id):
     sql_update(user_id,{"all_invite":sql_get(user_id)["all_invite"]+1})
@@ -129,10 +127,10 @@ def show_guanliyuan(message):
 @robot.filter("积分")
 def show_score(message):
     set_newuser_sql(message)
-    print(sql_get(message.source))
     t = sql_get(message.source)
-    return f"""你的永久积分为{t['score']} 永久积分通过充值和邀请好友获得。
-免费积分为:{ t['freescore']}) 免费积分通过获得领取。优先使用免费积分。
+    return f"""你的永久积分为{t['score']}
+免费积分为:{ t['freescore']},优先自动使用免费积分。
+积分可以通过充值和邀请好友获得。
 你已经邀请了{t['all_invite']}个用户"""#(每日6点重置为{price.daily_user}
 
 # sql_update("id",{"score":100,"freescore":100})
