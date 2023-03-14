@@ -50,9 +50,9 @@ def sql_score_change(id,kwargs:dict):
     print(dic)
     for key in kwargs:
         if key == "score_change":
-            if not dic["freescore",None]:
+            if not dic.get("freescore",None):
                 dic["freescore"] = 0
-            if not dic["score",None]:
+            if not dic.get("score",None):
                 dic["score"] = 0
             if dic["freescore"] + kwargs[key] < 0:
                 dic["score"] += dic["freescore"] + kwargs[key]
@@ -62,7 +62,7 @@ def sql_score_change(id,kwargs:dict):
             else:
                 dic["freescore"] += kwargs[key]
         else: 
-            if  not dic[key,None] :
+            if  not dic.get(key,None) :
                 dic[key] = 0
             dic[key] += kwargs[key]
     sql_update(id,dic)
