@@ -180,7 +180,7 @@ def hello_world(message):
                 user_id =  key_dic["user_id"]
                 if sql_get(user_id)  != {}:
                     set_invite_sql(user_id)
-                    sql_update(message.source,sql_get(message.source)['already_invited'] + 1)
+                    sql_update(message.source,{'already_invited':sql_get(message.source)['already_invited'] + 1})
                     return "邀请码输入成功！感谢你的支持！"
         return "邀请码不存在，确认后重新输入。一个正常的邀请码为  id_a665a459  。你只需要输入邀请码，不用任何多余的字符"
 
