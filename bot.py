@@ -106,6 +106,10 @@ def show_guanliyuan(message):
 
 @robot.filter("积分")
 def show_score(message, session):
+    print(message.source)
+    print("session",session)
+    print("sql",sql.get(message.source), type(sql.get(message.source)))
+
     set_newuser_sql(message, session)
     return f"""你的永久积分为{sql.get(message.source)['score']} 永久积分通过充值和邀请好友获得。
 免费积分为:{ sql.get(message.source)['freescore']}) 免费积分通过获得领取。优先使用免费积分。
