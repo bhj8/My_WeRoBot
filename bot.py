@@ -99,6 +99,7 @@ def set_newuser_sql(message, session):
     if  "count" not in  sql_get(fkey):
         sql_update(fkey,{"count":0})
     print(session)
+    print(sql.get(message.source))
 #设置邀请码的sql
 def set_invite_sql(user_id):
     sql_update(user_id,{"all_invite":sql_get(user_id)["all_invite"]+1})
@@ -130,6 +131,9 @@ def show_score(message, session):
 免费积分为:{ sql_get(message.source)['freescore']}) 免费积分通过获得领取。优先使用免费积分。
 你已经邀请了{sql_get(message.source)['all_invite']}个用户"""#(每日6点重置为{price.daily_user}
 
+# sql_update("id",{"score":100,"freescore":100})
+# a = sql_get("id")['score']
+# print(a)
 @robot.filter("帮助")
 def show_help(message):
     return  mytxt.help_txt
