@@ -96,9 +96,11 @@ def set_newuser_sql(message):
         dic['paints'] = 0
     if not 'all_invite' in dic:
         dic['all_invite'] = 0
+    sql_update(message.source,dic)
     sql_update(fkey,{"user_id":message.source})
     if  "count" not in  sql_get(fkey):
         sql_update(fkey,{"count":0})
+    
     print(dic)
     print(sql.get(message.source))
 #设置邀请码的sql
