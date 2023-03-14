@@ -47,7 +47,6 @@ def sql_score_change(id,kwargs:dict):
     if dic=={}:
         raise ValueError(f"在score_change sql数据库时发现了异常，没有get到{id}值")
         # sql[id] = {}
-    print(dic)
     for key in kwargs:
         if key == "score_change":
             if not dic.get("freescore",None):
@@ -66,7 +65,7 @@ def sql_score_change(id,kwargs:dict):
                 dic[key] = 0
             dic[key] += kwargs[key]
     sql_update(id,dic)
-    print(sql_get(id))
+    print(id,"change",sql_get(id))
     
 
 #画图全部堆在里面。。。
