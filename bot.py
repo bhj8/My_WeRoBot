@@ -153,12 +153,12 @@ def subscribe(message):
 
 
 @robot.voice #语音转文字后发送到文字处理函数
-def handler_voice(message,session):
+def handler_voice(message):
     message.content = message.recognition
-    return hello_world(message,session)
+    return hello_world(message)
 
 @robot.text #文字处理函数
-def hello_world(message,session): 
+def hello_world(message): 
     if message.content.startswith("id"):#输入验证邀请码
         if  utils.is_valid_invite_code(message.content.strip()) :
             key_dic = sql_get(message.content.strip())

@@ -23,31 +23,48 @@ def set_config(h_paint=False):
 def set_sql(by_sql):
     global sql
     sql = by_sql
-
+#封装对sql的操作
+def sql_update(id,dic):
+    a = sql.get(id)
+    a.update(dic)
+    sql.set(id,a)
+def sql_del(id,dic):
+    a = sql.get(id)
+    for key in dic :
+        a.pop(key,None)    
+    sql.set(id,a)
+def sql_get(id):
+    a = sql.get(id)
+        # raise ValueError(f"在get sql数据库时发现了异常，没有get到{id}值")
+    return a
 #临时创建一个sdapi实例
 sdapi = SDapi()
 
 #只能传int啊，千万别传字符串
 def sql_score_change(id,**kwargs):
-    if not sql.get(id):
+    dic =  sql_get(id)
+    if dic=={}:
         raise ValueError(f"在score_change sql数据库时发现了异常，没有get到{id}值")
         # sql[id] = {}
+    
     for key in kwargs:
         if key == "score_change":
-            if not sql[id].get("freescore"):
-                sql[id]["freescore"] = 0
-            if not sql[id].get("score"):
-                sql[id]["score"] = 0
-            if sql[id]["freescore"] + kwargs[key] < 0:
-                sql[id]["score"] += sql[id]["freescore"] + kwargs[key]
-                sql[id]["freescore"] = 0
-                if sql[id]["score"] < 0:
-                    sql[id]["score"] = 0
+            if not dic["freescore",None]:
+                dic["freescore"] = 0
+            if not dic["score",None]:
+                dic["score"] = 0
+            if dic["freescore"] + kwargs[key] < 0:
+                dic["score"] += dic["freescore"] + kwargs[key]
+                dic["freescore"] = 0
+                if dic["score"] < 0:
+                    dic["score"] = 0
             else:
-                sql[id]["freescore"] += kwargs[key]
-        if not sql[id].get(key):
-            sql[id][key] = 0
-        sql[id][key] += kwargs[key]
+                dic["freescore"] += kwargs[key]
+        else: 
+            if  not dic[key,None] :
+                dic[key] = 0
+            dic[key] += kwargs[key]
+    sql.set(id,dic)
     
 
 #画图全部堆在里面。。。
