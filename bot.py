@@ -194,13 +194,13 @@ def hello_world(message):
             asyncio.run(deal_message(message,{"seed":seed,"mode":"paint"}))#临时测试用
             # get_response(message,{"seed":seed,"mode":"paint","session":session})
 
-            return mytxt.start_point_txt
+            return mytxt.start_paint_txt
         else:
             return "请求过于频繁，请稍后再试。超高清模式下，20秒内只能画一张。请谅解"
     # messages.content = replace_badword(message.content)
     if message.source not in user_chats:
         user_chats[message.source] = chathistory()
-    user_chats[message.source].add(message.content)
+    user_chats[message.source].history.add(message.content)
     print(message.content,"in_reply")
     asyncio.run(deal_message(message,{"chathistory":user_chats[message.source],"mode":"chat"}))#临时测试用
     # get_response(message,{"chathistory":user_chats[message.source],"mode":"chat"})
