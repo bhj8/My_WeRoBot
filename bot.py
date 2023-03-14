@@ -127,9 +127,11 @@ def show_guanliyuan(message):
 @robot.filter("积分")
 def show_score(message):
     set_newuser_sql(message)
-    return f"""你的永久积分为{sql_get(message.source)['score']} 永久积分通过充值和邀请好友获得。
-免费积分为:{ sql_get(message.source)['freescore']}) 免费积分通过获得领取。优先使用免费积分。
-你已经邀请了{sql_get(message.source)['all_invite']}个用户"""#(每日6点重置为{price.daily_user}
+    print(sql_get(message.source))
+    t = sql_get(message.source)
+    return f"""你的永久积分为{t['score']} 永久积分通过充值和邀请好友获得。
+免费积分为:{ t['freescore']}) 免费积分通过获得领取。优先使用免费积分。
+你已经邀请了{t['all_invite']}个用户"""#(每日6点重置为{price.daily_user}
 
 # sql_update("id",{"score":100,"freescore":100})
 # a = sql_get("id")['score']
