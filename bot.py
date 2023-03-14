@@ -128,9 +128,9 @@ def show_guanliyuan(message):
 def show_score(message):
     set_newuser_sql(message)
     t = sql_get(message.source)
-    return f"""你的永久积分为{t['score']}
-免费积分为:{ t['freescore']},优先自动使用免费积分。
-积分可以通过充值和邀请好友获得。
+    return f"""你的永久积分为:{t['score']}
+免费积分为:{ t['freescore']}
+优先自动使用免费积分,积分可以通过充值和邀请好友获得。
 你已经邀请了{t['all_invite']}个用户"""#(每日6点重置为{price.daily_user}
 
 # sql_update("id",{"score":100,"freescore":100})

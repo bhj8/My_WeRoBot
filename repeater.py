@@ -64,7 +64,7 @@ def sql_score_change(id,**kwargs):
             if  not dic[key,None] :
                 dic[key] = 0
             dic[key] += kwargs[key]
-    sql.set(id,dic)
+    sql_update(id,dic)
     
 
 #画图全部堆在里面。。。
