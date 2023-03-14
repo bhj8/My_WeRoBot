@@ -1,3 +1,4 @@
+import price
 class mytxt	 :
     #示例
     welcometxt = """
@@ -78,6 +79,11 @@ class mytxt	 :
 小慧以后会读懂表情和图片的，敬请期待！
 后期还会支持照片修复、照片画图等功能哦！"""
 
+    #定价文本
+    pricetxt ="""高清大图 10积分
+聊天1000字符 8积分 （汉字算2字符）
+
+输入“邀请码”邀请好友即可获得100积分！"""
 
     #画图 先文本
     first_txt = "masterpiece, best quality, ultra-detailed,  "

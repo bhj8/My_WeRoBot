@@ -131,7 +131,13 @@ def show_score(message):
     return f"""你的永久积分为:{t['score']}
 免费积分为:{ t['freescore']}
 优先自动使用免费积分,积分可以通过充值和邀请好友获得。
-你已经邀请了{t['all_invite']}个用户"""#(每日6点重置为{price.daily_user}
+你已经邀请了{t['all_invite']}个用户
+输入"价格"查看积分定价"""#(每日6点重置为{price.daily_user}
+
+
+@robot.filter("价格")
+def show_price(message):
+    return mytxt.pricetxt
 
 # sql_update("id",{"score":100,"freescore":100})
 # a = sql_get("id")['score']
