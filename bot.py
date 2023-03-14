@@ -191,8 +191,8 @@ def hello_world(message):
             later_no_paint(message.source)
             seed = utils.generate_seed(message.source + message.content)
             # session[str(seed)] = message.content
-            asyncio.run(deal_message(message,{"seed":seed,"mode":"paint"}))#临时测试用
-            # get_response(message,{"seed":seed,"mode":"paint","session":session})
+            # asyncio.run(deal_message(message,{"seed":seed,"mode":"paint"}))#临时测试用
+            get_response(message,{"seed":seed,"mode":"paint"})
 
             return mytxt.start_paint_txt
         else:
@@ -202,8 +202,8 @@ def hello_world(message):
         user_chats[message.source] = chathistory()
     user_chats[message.source].add_message(message.content)
     print(message.content,"in_reply")
-    asyncio.run(deal_message(message,{"chathistory":user_chats[message.source],"mode":"chat"}))#临时测试用
-    # get_response(message,{"chathistory":user_chats[message.source],"mode":"chat"})
+    # asyncio.run(deal_message(message,{"chathistory":user_chats[message.source],"mode":"chat"}))#临时测试用
+    get_response(message,{"chathistory":user_chats[message.source],"mode":"chat"})
     
     if "图" in message.content or "画" in message.content :
         return "想要画图，请以画图会开头。例如：画图 金发女孩"
