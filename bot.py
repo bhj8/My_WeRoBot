@@ -32,7 +32,7 @@ robot.config['APP_SECRET'] = AppSecret
 robot.config['ENCODING_AES_KEY'] = aes_key
 client = robot.client
 
-sql = robot.session_storage#实例化数据库  openai：1."score"积分2."freescore"每日免费积分 3."inrmb"总充值金额 4."friendkey"邀请码 5."chats"总聊天次数 6."paints"总画画次数 7."all_invite"总邀请次数
+sql = robot.session_storage#实例化数据库  openai：1."score"积分2."freescore"每日免费积分 3."inrmb"总充值金额 4."friendkey"邀请码 5."chats"总聊天次数 6."paints"总画画次数 7."all_invite"总邀请次数 8."already_invited" 已经被邀请
 #key 的 1."user_id" 用户id  2."count" 这个key成功邀请的次数
 
 
@@ -96,6 +96,8 @@ def set_newuser_sql(message):
         dic['paints'] = 0
     if not 'all_invite' in dic:
         dic['all_invite'] = 0
+    if not 'already_invited' in dic:
+        dic['already_invited'] = 0
     sql_update(message.source,dic)
     sql_update(fkey,{"user_id":message.source})
     if  "count" not in  sql_get(fkey):
@@ -169,11 +171,16 @@ def handler_voice(message):
 def hello_world(message): 
     if message.content.startswith("id"):#输入验证邀请码
         if  utils.is_valid_invite_code(message.content.strip()) :
+            if sql_get(message.source)['already_invited'] >= 1:
+                return "你已经输入过邀请码了，不要重复输入。"
+
+            #下面去找邀请码对应的用户
             key_dic = sql_get(message.content.strip())
             if  key_dic != {}:
                 user_id =  key_dic["user_id"]
                 if sql_get(user_id)  != {}:
-                    set_invite_sql(user_id)                    
+                    set_invite_sql(user_id)
+                    sql_update(message.source)['already_invited'] = sql_get(message.source)['already_invited'] + 1
                     return "邀请码输入成功！感谢你的支持！"
         return "邀请码不存在，确认后重新输入。一个正常的邀请码为  id_a665a459  。你只需要输入邀请码，不用任何多余的字符"
 
