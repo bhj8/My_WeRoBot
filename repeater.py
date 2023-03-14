@@ -30,7 +30,8 @@ sdapi = SDapi()
 #只能传int啊，千万别传字符串
 def sql_score_change(id,**kwargs):
     if not sql.get(id):
-        sql[id] = {}
+        raise ValueError(f"在score_change sql数据库时发现了异常，没有get到{id}值")
+        # sql[id] = {}
     for key in kwargs:
         if key == "score_change":
             if not sql[id].get("freescore"):

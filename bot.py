@@ -33,7 +33,7 @@ robot.config['ENCODING_AES_KEY'] = aes_key
 client = robot.client
 
 sql = robot.session_storage#实例化数据库  openai：1."score"积分2."freescore"每日免费积分 3."inrmb"总充值金额 4."friendkey"邀请码 5."chats"总聊天次数 6."paints"总画画次数 7."all_invite"总邀请次数
-
+#key 的 1."user_id" 用户id  2."count" 这个key成功邀请的次数
 
 
 
@@ -73,6 +73,12 @@ def sql_del(id,dic):
     for key in dic :
         a.pop(key,None)    
     sql.set(id,a)
+def sql_get(id):
+    a = sql.get(id)
+        # raise ValueError(f"在get sql数据库时发现了异常，没有get到{id}值")
+    return a
+        
+
 #设置新用户的sql
 def set_newuser_sql(message, session):
     fkey = utils.get_friendkey(message.source)
@@ -90,13 +96,13 @@ def set_newuser_sql(message, session):
     if not 'all_invite' in session:
         session['all_invite'] = 0
     sql_update(fkey,{"user_id":message.source})
-    if  "count" not in  sql.get(fkey):
+    if  "count" not in  sql_get(fkey):
         sql_update(fkey,{"count":0})
     print(session)
 #设置邀请码的sql
 def set_invite_sql(user_id):
-    sql_update(user_id,{"all_invite":sql.get(user_id)["all_invite"]+1})
-    sql_update(user_id,{"score":sql.get(user_id)["score"]+price.invite_user})
+    sql_update(user_id,{"all_invite":sql_get(user_id)["all_invite"]+1})
+    sql_update(user_id,{"score":sql_get(user_id)["score"]+price.invite_user})
     pass
 
 
@@ -119,9 +125,10 @@ def show_guanliyuan(message):
 @robot.filter("积分")
 def show_score(message, session):
     set_newuser_sql(message, session)
-    return f"""你的永久积分为{sql.get(message.source)['score']} 永久积分通过充值和邀请好友获得。
-免费积分为:{ sql.get(message.source)['freescore']}) 免费积分通过获得领取。优先使用免费积分。
-你已经邀请了{sql.get(message.source)['all_invite']}个用户"""#(每日6点重置为{price.daily_user}
+    print(sql_get(message.source))
+    return f"""你的永久积分为{sql_get(message.source)['score']} 永久积分通过充值和邀请好友获得。
+免费积分为:{ sql_get(message.source)['freescore']}) 免费积分通过获得领取。优先使用免费积分。
+你已经邀请了{sql_get(message.source)['all_invite']}个用户"""#(每日6点重置为{price.daily_user}
 
 @robot.filter("帮助")
 def show_help(message):
@@ -131,7 +138,7 @@ def show_help(message):
 def show_invite(message, session):
     set_newuser_sql(message, session)
     client.send_text_message(message.source,mytxt.invite_txt)
-    return f"{sql.get(message.source)['friendkey']}"
+    return f"{sql_get(message.source)['friendkey']}"
 
 
 #新用户关注
@@ -150,10 +157,10 @@ def handler_voice(message,session):
 def hello_world(message,session): 
     if message.content.startswith("id"):#输入验证邀请码
         if  utils.is_valid_invite_code(message.content.strip()) :
-            key_dic = sql.get(message.content.strip())
+            key_dic = sql_get(message.content.strip())
             if  key_dic != {}:
                 user_id =  key_dic["user_id"]
-                if sql.get(user_id)  != {}:
+                if sql_get(user_id)  != {}:
                     set_invite_sql(user_id)                    
                     return "邀请码输入成功！感谢你的支持！"
         return "邀请码不存在，确认后重新输入。一个正常的邀请码为  id_a665a459  。你只需要输入邀请码，不用任何多余的字符"
@@ -162,8 +169,8 @@ def hello_world(message,session):
     if session == {}:
         set_newuser_sql(message, session)
     
-    if sql.get(message.source)["score"] + sql.get(message.source)["freescore"] < 0:
-        client.send_text_message(message.source,sql.get(message.source)["friendkey"])
+    if sql_get(message.source)["score"] + sql_get(message.source)["freescore"] < 0:
+        client.send_text_message(message.source,sql_get(message.source)["friendkey"])
         return"""积分不足，无法继续聊天。请充值后再使用。
 你也可以邀请任意好友关注 小慧很智慧 
 并将您的邀请码发送给小慧,即可获得免费{price.invite_user}永久积分"""
